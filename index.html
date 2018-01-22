@@ -1,59 +1,81 @@
 <!doctype html>
 <html>
 <head>
-	<title>Pie Layout</title>
-	<script src="http://d3js.org/d3.v3.min.js"></script>
+    <meta charset="utf-8">
+    <title>Ronnie's Portfolio</title>
+    <style>
+    
+    body{
+       background:url('photo/Lonehouse.jpg');
+       background-attachment:fixed;
+       background-repeat:no-repeat;
+       background-size:cover;
+       -moz-background-size:cover;
+       -webkit-background-size:cover;
+    
+}
+
+    .menu-icon{  
+        position: relative;
+        top:20px;
+        left:30px;      
+        width: 37px;  
+        height: 6px;  
+        border-top: 5px solid #DD575C;  
+        border-bottom: 5px solid #DD575C;  
+        background-color: #DD575C;  
+        padding: 5px 0;  
+        background-clip:content-box;
+        font-family:Comic Sans MS;
+        font-size: 14px;
+
+}
+
+
+
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top:1.55em;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+    </style>
 </head>
 
+
 <body>
-	<script>
-
-		var data = [10, 50, 80];
-
-		var r = 300;
-
-		var color = d3.scale.ordinal()
-		              .range(["red", "blue", "orange"]);
-		              
-
-		var canvas = d3.select("body").append("svg")
-		               .attr("width", 1500)
-		               .attr("height", 1500);
+    <div class="body"></div>
+    <div class="menu-icon dropdown"><span>
+    </span>
+    <div class="dropdown-content">
+      <a href="index.html">Homepage</a>
+      <a href="svg.html">Profolio</a>
+      
+    </div>
+</div>
 
 
 
-		var group = canvas.append("g")
-		                  .attr("transform", "translate(300, 300)");
-
-
-		var arc = d3.svg.arc()
-		            .innerRadius(200)
-		            .outerRadius(r);
-
-
-		var pie = d3.layout.pie()
-		            .value(function (d) { return d; }); //依次返回数组中的数据给pie，这个d里面包含了startAngle、endAngle
-
-		var arcs = group.selectAll(".arc")
-		                .data(pie(data)) //将data传递给pie，pie可以通过layout函数算出d3能够辨认的参数，将该参数绑定到图形，就可以用laout画出pie。
-		                .enter()
-		                .append("g")
-		                .attr("class", "arc");
-
-		arcs.append("path")
-		    .attr("d", arc)
-		    .attr("fill", function(d) { return color(d.data); });
-
-		arcs.append("text")
-		    .attr("transform", function (d) { return "translate(" + arc.centroid(d) + ")"; })
-		    .attr("text-anchor", "middle")
-		    .attr("font-size", "1.5em")
-		    .text(function (d) { return d.data; });
-
-
-
-
-
-    </script>
 </body>
 </html>
