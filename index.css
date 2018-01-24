@@ -1,0 +1,41 @@
+body{background:url('photo/Lonehouse.jpg');
+background-attachment:fixed;
+background-repeat:no-repeat;
+background-size:cover;
+-moz-background-size:cover;
+-webkit-background-size:cover;}
+
+.menu-icon{position: relative;
+    top:20px;
+    left:30px;      
+    width: 37px;  
+    height: 6px;  
+    border-top: 5px solid #DD575C;  
+    border-bottom: 5px solid #DD575C;  
+    background-color: #DD575C;  
+    padding: 5px 0;  
+    background-clip:content-box;
+    font-family:Comic Sans MS;
+    font-size: 14px;}
+
+
+
+    .dropdown{display: inline-block;}
+
+    .dropdown-content{display: none;
+        position: absolute;
+        top:1.55em;
+        background-color: #f9f9f9;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);}
+
+        .dropdown-content a{color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;}
+
+            .dropdown-content a:hover{
+                background-color: #f1f1f1}
+
+                .dropdown:hover .dropdown-content{
+                    display: block;}
