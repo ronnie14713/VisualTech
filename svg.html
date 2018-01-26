@@ -127,10 +127,7 @@
 
 
 			<!--The colorful gradient rectangle is hard to fill color-->
-			<line x1="480" y1="600" x2="670" y2="380" style="stroke:rgb(14,5,8);stroke-width:1" />
-			<line x1="670" y1="380" x2="677" y2="387" style="stroke:rgb(14,5,8);stroke-width:1" />
-			<line x1="677" y1="387" x2="487" y2="607" style="stroke:rgb(14,5,8);stroke-width:1" />
-			<line x1="487" y1="607" x2="480" y2="600" style="stroke:rgb(14,5,8);stroke-width:1" />
+			
 
 
 
@@ -176,12 +173,14 @@
 			<line x1="680" y1="425" x2="624" y2="497" style="stroke:rgb(128,157,101);stroke-width:2" />
 
 
+			<!--colorful long bar-->
+			<g>
+				<rect x="480" y="600" width="12" height="10" fill="rgb(129,180,53)"  stroke="rgb(32,36,19)" stroke-width="1" />
+			</g>
 
 
 
-
-
-
+			<!--Green shadow line-->
 			<line x1="590" y1="290" x2="630" y2="278" style="stroke:rgb(128,157,101);stroke-width:5" />
 
 
@@ -227,12 +226,12 @@
 			<path d="M735 280 h40" stroke="black" stroke-width="5"/>
 			<path d="M735 300 h40" stroke="black" stroke-width="12"/>
 			<path d="M735 340 h45" stroke="black" stroke-width="2"/>
-
-			<path d="M735 300 h40" stroke="black" stroke-width="12"/>
+			
 
 			<path d="M737 370 h40" stroke="black" stroke-width="6"/>
+			<path d="M737 378 h40" stroke="black" stroke-width="2"/>
 			
-			<path d="M737 400 h40" stroke="black" stroke-width="14"/>
+			<path d="M738 400 h40" stroke="black" stroke-width="14"/>
 
 
 			<!--The squares-->
@@ -261,14 +260,15 @@
 
 
 			<!--I don't know why the rect cannot use transform='rotate(15)' function here-->
-			<rect fill="rgb(243,205,82)" width="18" height="18" x="820" y="545" stroke="rgb(32,36,19)" stroke-width="2" />
+			<rect fill="rgb(129,180,53)" width="18" height="18" x="820" y="545" stroke="rgb(32,36,19)" stroke-width="2" transform='rotate(15) translate(120,-217)'/>
 
 
 
-			<path d="M825 580 h40" stroke="black" stroke-width="2"/>
-			<path d="M840 590 h40" stroke="black" stroke-width="2"/>
-			<path d="M850 600 h30" stroke="black" stroke-width="2"/>
-			<path d="M850 607 h30" stroke="black" stroke-width="2"/>
+			<path d="M825 573 h40" stroke="black" stroke-width="1"/>
+			<path d="M850 580 h40" stroke="black" stroke-width="1"/>
+			<path d="M865 588 h25" stroke="black" stroke-width="1"/>
+			<path d="M865 594 h25" stroke="black" stroke-width="1"/>
+			
 
 
 
@@ -291,13 +291,8 @@
 
 
 
-
-			
-
-
 			<path d="M788 360 L793 420" style="stroke:rgb(4,3,0);stroke-width:1" />
 			<path d="M798 360 L793 420" style="stroke:rgb(4,3,0);stroke-width:1" />
-
 
 
 
@@ -306,7 +301,6 @@
 			<line x1="810" y1="300" x2="870" y2="285" style="stroke:rgb(4,3,0);stroke-width:4" transform='translate(8,12)' />
 			<line x1="810" y1="300" x2="870" y2="285" style="stroke:rgb(4,3,0);stroke-width:4" transform='translate(16,25)' />
 			<rect fill="rgb(11,10,5)" width="10" height="10" x="778" y="330" stroke="rgb(1,0,5)" stroke-width="1" transform='translate(50,10)'/>
-
 
 
 
@@ -322,17 +316,20 @@
 
 				<!--Pencil Tip-->
 
-				<path d="M890 360 L825 390" stroke="black" stroke-width="1" />
+				<path d="M890 360 L825 390" stroke="black" stroke-width="1"/>
 				<path d="M890 375 L825 390" stroke="black" stroke-width="1"/>
 				<path d="M890 390 h-65" stroke="black" stroke-width="1"/>
 				<path d="M890 405 L825 390" stroke="black" stroke-width="1"/>
 				<path d="M890 420 L825 390" stroke="black" stroke-width="1"/>
-
-
-
-
-
 			</g>
+
+
+
+			<!-- Why uses rotate,skewX will make the coordinator changes?-->
+			<rect x='845' y='395' width='70' height='20' fill=rgb(168,70,43) transform='rotate(33) translate(-1123,-499) skewX(72)' />
+
+
+
 
 
 			
