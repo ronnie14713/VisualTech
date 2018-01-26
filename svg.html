@@ -292,13 +292,16 @@
 
 
 
-			<line x1="788" y1="360" x2="793" y2="400" style="stroke:rgb(4,3,0);stroke-width:1" />
-			<line x1="798" y1="360" x2="793" y2="400" style="stroke:rgb(4,3,0);stroke-width:1" />
+			
+
+
+			<path d="M788 360 L793 420" style="stroke:rgb(4,3,0);stroke-width:1" />
+			<path d="M798 360 L793 420" style="stroke:rgb(4,3,0);stroke-width:1" />
 
 
 
 
-			<!--The last part-->
+			<!--The last part begins-->
 			<line x1="810" y1="300" x2="870" y2="285" style="stroke:rgb(4,3,0);stroke-width:4" />
 			<line x1="810" y1="300" x2="870" y2="285" style="stroke:rgb(4,3,0);stroke-width:4" transform='translate(8,12)' />
 			<line x1="810" y1="300" x2="870" y2="285" style="stroke:rgb(4,3,0);stroke-width:4" transform='translate(16,25)' />
@@ -309,8 +312,30 @@
 
 
 			<!--The pencil-->
-			<rect x='845' y='400' width='30' height='30' fill=rgb(192,66,43) />
-			<rect x='845' y='400' width='30' height='30' fill=rgb(192,66,43) transform="rotate(1)" />
+			<g transform='rotate(-22) translate(-200,320)'>
+				<rect x='890' y='360' width='30' height='30' fill=rgb(192,66,43) stroke=rgb(4,3,0) stroke-width=1 />
+				<rect x='890' y='360' width='30' height='30' fill=rgb(230,150,115) stroke=rgb(4,3,0) stroke-width=1 transform='translate(30)' />
+				<rect x='890' y='360' width='30' height='30' fill=rgb(230,150,115) stroke=rgb(4,3,0) stroke-width=1 transform='translate(0,30)' />
+				<rect x='890' y='360' width='30' height='30' fill=rgb(9,8,4) stroke=rgb(4,3,0) stroke-width=1 transform='translate(30,30)' />
+
+
+
+				<!--Pencil Tip-->
+
+				<path d="M890 360 L825 390" stroke="black" stroke-width="1" />
+				<path d="M890 375 L825 390" stroke="black" stroke-width="1"/>
+				<path d="M890 390 h-65" stroke="black" stroke-width="1"/>
+				<path d="M890 405 L825 390" stroke="black" stroke-width="1"/>
+				<path d="M890 420 L825 390" stroke="black" stroke-width="1"/>
+
+
+
+
+
+			</g>
+
+
+			
 
 
 
