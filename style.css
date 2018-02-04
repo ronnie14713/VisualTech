@@ -1,0 +1,22 @@
+p{
+	color: blue;
+	font-size:32px;
+	margin: 25px
+}
+body{
+	color: lightgrey;
+}
+
+#redParagraph{
+	color: red;
+
+
+
+}
+
+.fontfamily{
+	font-family: 'Supermercado One', cursive;
+
+
+
+}

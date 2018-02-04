@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    Homeworktest
+  </title>
+  <style>
+
+  .font {
+    color:#343960;
+    font-family:Helvetica;
+  }
+  
+</style>
+
+</head>
+
+<body>
+
+
+  <h1 class="font">
+    Please use function number() in console and webpage refresh to change the inside and webpage's values
+
+  </h1>
+
+
+
+  <h2  id="change"></h3>
+
+
+  <script>
+
+      var number = 
+      function(a){
+        if (a + 20 > 50){
+          console.log("Bigger");
+        
+      }
+      else{
+        console.log("Smaller");
+      }
+      }
+    
+
+    number(5);
+    number(9);
+
+      
+  var rnum = Math.floor(Math.random() * 30);
+  console.log(rnum)
+      document.getElementById("change").innerHTML = "Here is the random number " + "(" + rnum + ")" + ".";
+      
+
+
+
+ </script>
+</body>
+
+</html>
