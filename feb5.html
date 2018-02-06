@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JS libraries</title>
+	<script src="https://d3js.org/d3.v4.min.js">
+	</script>
+</head>
+
+
+
+<body id="myBody">
+	Hello Feb 5
+
+	<svg id="viz">
+
+	</svg>
+
+
+</body>
+
+<script src="number.js"></script>
+
+<script>
+	console.log(squared(22));
+
+	var y = numbers.squared(20);
+	console.log(y);
+	var x = numbers.plus10(5);
+	console.log(x);
+
+
+
+	var body = document.getElementById("myBody")
+	               body.style.backgroundColor = "red"
+	               body.style.fontFamily = "Comic Sans MS"
+	               body.id = "newId";
+
+	d3.select("body")
+	  .style("background-color", "blue")
+	  .style("font-family", "Arial")
+	  .style("font-size", "100px")
+	  .attr("id", "myBody");
+
+
+
+	 var myData = [24, 50, 13, 5, 12];
+
+	 var newData = [33, 4, 20];
+
+	 var moreData = [10,30, 32, 49, 68, 12,19.23];
+
+
+	 var drawCircles = function(dataArrary){
+
+
+	 	var svg = d3.select("#viz");
+
+	 	
+
+
+	 	
+
+	 	   var dots = svg.selectAll(".dot")
+	 	                 .data(dataArrary);
+
+
+	 	    //.enter() creates the initial join of data to elements, creating one circle element for every data element in the array.
+
+
+	 	    dots.enter()
+	 	        .append("circle")
+	 	        .attr("class", "dot")
+	 	        
+	 	        .attr("cx", 0)
+	 	        .attr("cy", 25)
+	 	        .transition()
+	 	        .duration(1000)
+	 	        .attr("cx", function(d){
+	 	        	return d * 10;
+
+	 	        })
+	 	         	      
+	 	        .attr("r", function(dataPoint){
+	 	        	return dataPoint / 2;
+	 	        })
+	 	        .attr("fill", "green");
+
+
+
+	 	 //update circles
+
+	 	 dots
+	 	     .transition()
+	 	     .duration(1000)
+	 	     .attr("r", function(dataPoint){
+	 	        	return dataPoint / 2;
+	 	        })
+	 	      .attr("fill", "green");
+
+
+
+	 	    
+/*
+
+	 	dots
+	 	   .attr("r", function(dataPoint){
+	 	   	return dataPoint / 2;
+
+	 	   });
+*/
+
+	 	   dots.exit().remove()
+	 	};
+           
+
+           drawCircles(newData);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>
