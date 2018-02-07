@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v4.min.js">  
+        </script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script> 
+
+    <script type="text/javascript">
+        $(window).on('scroll', function(){
+            if($(window).scrollTop()){
+                $('nav').addClass('black');
+            }
+            else {
+                $('nav').removeClass('black');
+            }
+        })
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="assignment.css">
+
+    <link rel="stylesheet" type="text/css" href="ahref.css">
+
+
+
+
+        <style>
+            
+            svg{
+                width:500px; height:500px
+            }
+            
+            button{
+                float:left
+            }
+            
+            circle{
+                fill:#008ae6;
+                stroke:black;
+                stroke-opacity:.5;
+                fill-opacity:.9;
+            }
+            
+            
+            
+            text{
+                text-anchor:middle}
+                a:link { text-decoration: none} 
+                a:active { text-decoration: none } 
+                a:hover { text-decoration:underline;color: red} 
+                a:visited { text-decoration: none }
+
+
+
+
+
+            
+        </style>
+
+        <title>Assignment3</title>
+        
+    </head>
+    
+
+    <body>
+        <div class="wrapper">
+        <nav>
+            <div class="logo">Luminous</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="assignmenthub.html">Assignment</a></li>
+                <li><a href="#">Games</a></li>
+                <li><a class="active" href="#">Log In</a></li>
+            </ul>
+        </nav>
+        <section class="sec1"></section>
+        <section class="content"><p></p></section>
+    </div>
+
+        
+
+
+
+        <h3 class="hw">Third Assignemnt</h3>
+        
+        
+            
+            <script>
+
+            var dataArray1 = [39,90,49,29];
+            var dataArray2 = [29,41,67];
+            
+            
+            var dIndex=1;
+            var x0=300;
+            var y0=50;
+            var lineLength=400;
+            
+            
+            //text part
+            var svg1 = d3.select("body")
+                           .append("svg")
+
+                svg1.append("text")
+                    .attr("x",x0+(lineLength/2))
+                    .attr("y",20)
+                    .text("dataset"+dIndex);
+            
+            
+            
+            //circles
+            svg1.append("g").selectAll("circle")
+                .data(eval("dataArray"+dIndex))
+                .enter()
+                .append("circle")
+                .attr("cx",function(d,i){
+                    var spacing = lineLength/(eval("dataArray"+dIndex).length);
+                    return x0+(i*spacing)
+                })
+                .attr("cy",y0)
+                .attr("r",function(d,i){return d});
+            
+            //switch button
+            d3.select("body")
+              .append("button")
+              .text("change data")
+              .on("click",function(){
+                    //select new data
+                    if (dIndex==1) {
+                        dIndex=2;  
+                    } else   {
+                        dIndex=1;
+                    }
+                    
+
+                    //data refresh
+                    var circle = svg1.select("g")
+                                     .selectAll("circle")
+                                     .data(eval("dataArray"+dIndex));
+                    //.exit .remove
+                    circle.exit().remove();
+
+
+
+
+                    
+
+                    //transition between two datasets
+                    circle.transition()
+                          .duration(500)
+                          .attr("cx",function(d,i){
+                            var spacing = lineLength/(eval("dataArray"+dIndex).length);
+                            return x0+(i*spacing)
+                        })
+                          .attr("cy",y0)
+                          .attr("r",function(d,i){return d});
+
+                    d3.select("text").text("dataset"+dIndex);
+
+                });
+
+            
+        </script>
+    
+    
+    </body>
+</html>
