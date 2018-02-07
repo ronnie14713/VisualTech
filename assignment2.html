@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>Assignment Hub</title>
+	<title>Assignment 1_2</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
@@ -20,12 +20,6 @@
 	</script>
 
 	<link rel="stylesheet" type="text/css" href="assignment.css">
-
-	<link rel="stylesheet" type="text/css" href="ahref.css">
-
-
-	
-
 
 
 
@@ -51,17 +45,46 @@
 		<section class="content"><p></p></section>
 	</div>
 
+	<h3 class="hw">Second Assignemnt</h3>
 
-
-	<div style="width:100%; position:fixed; left:600px; top:280px">
-		<ul>
-			<li><a href="assignment3.html"> Assignment 3</a></li>
-			<p />
-			<li><a href="assignment2.html">Assignment 2</a></li>
-			<p />
-			<li><a href="assignment1.html">Assignment 1</a></li>
-
-		</ul>
+	<div class="border">
 	</div>
+	<span id="div2">
+		<h3 class="font">
+			Please use function number() in console and webpage refresh to change the inside and webpage's values
+
+		</h3>
+
+
+		<p  id="change">
+
+
+			<script>
+				var number = 2;
+				console.log(number);
+				var number = 
+				function(a){
+					if (a + 20 > 50){
+						console.log("Bigger");
+
+					}
+					else{
+						console.log("Smaller");
+					}
+				}
+
+
+				number(5);
+				number(9);
+
+
+				var rnum = Math.floor(Math.random() * 30);
+				console.log(rnum)
+				document.getElementById("change").innerHTML = "Here is the random number " + "(" + rnum + ")" + ".";
+
+			</script>
+		</p>
+	</span>
+
 </body>
 </html>
