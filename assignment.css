@@ -1,14 +1,4 @@
-    .border{
-        position:absolute;
-        top:200px;
-        left:218px;
-        width:1005px;
-        height:200px;
-        border:1px solid black
-
-    }
-
-    .hw{
+ .hw{
         position: absolute;
         top:130px;
         left:219px;
@@ -16,7 +6,7 @@
     }
 
    #div2{
-    position: absolute;
+    position: fixed;
     top:250px;
     left:245px;
    }
