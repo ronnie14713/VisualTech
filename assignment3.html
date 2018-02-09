@@ -99,6 +99,17 @@
                       .remove();
 
 
+                circle.transition()
+                                  .duration(1000)
+                                  .attr("cx", x0 + 230)
+                                  .attr("cy", function(d,i){
+                            return y0 + i * space * 2;
+                        })
+                                  .attr("r", function(d){
+                            return d;
+                        })
+
+
 
                 circle.enter()
                       .append("circle")
@@ -123,15 +134,7 @@
 
                             }
 
-                            circle.transition()
-                                  .duration(1000)
-                                  .attr("cx", x0 + 230)
-                                  .attr("cy", function(d,i){
-                            return y0 + i * space * 2;
-                        })
-                                  .attr("r", function(d){
-                            return d;
-                        })
+                            
 
 
                     });
