@@ -1,11 +1,29 @@
 <!doctype html>
 <html>
 <head>
-    <title>Circle Test</title>
+    <title>DataArray Change</title>
     <meta charset="utf-8">
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link type="text/css" href="style.css" rel="stylesheet" charset="utf-8">
 </head>
 <body>
+    <nav>
+  <ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a>About</a></li>
+  <li><a>Assignment</a>
+    <ul>
+      <li><a href="assignment3.html">DataArray Change</a></li>
+      <li><a href="assignment2.html">Console &amp Function</a></li>
+      <li><a href="assignment1.html">SVG Painting</a></li>
+    </ul>
+  </li>
+
+
+  <li><a>Unity</a></li>
+  <li><a>Python</a></li>
+</ul>
+</nav>
 
     <script>
         //set up data
@@ -75,28 +93,54 @@
 
 
 
+
+
                 circle.exit()
                       .remove();
 
+
+
                 circle.enter()
                       .append("circle")
-                      .attr("r", 0);
-
-            
-
-
-              circle.transition()
-                    .duration(1000)
-                    .attr("cx", x0 + 230)
-                    .attr("cy", function(d,i){
+                      .attr("cx", x0 + 230)
+                        .attr("cy", function(d,i){
                             return y0 + i * space * 2;
                         })
-                    .attr("r", function(d){
+                        .attr("r", function(d){
+                            return d;
+                        })
+                        .style("stroke-width", 0.5)
+                        .style("stroke", "black")
+                        .style("stroke-opacity", .5)
+                        .style("fill", function(d){
+                            if (d < 40) {
+                                return "#cc0000";
+                            }
+
+                            else {
+
+                                return "#ffffff";
+
+                            }
+
+                            circle.transition()
+                                  .duration(1000)
+                                  .attr("cx", x0 + 230)
+                                  .attr("cy", function(d,i){
+                            return y0 + i * space * 2;
+                        })
+                                  .attr("r", function(d){
                             return d;
                         })
 
 
                     });
+                        });
+
+            
+
+
+              
                     
 
 
