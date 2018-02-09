@@ -1,30 +1,10 @@
 <!doctype html>
 <html>
 <head>
-	<title>Assignment 1</title>
+	<title>SVG Painting</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link href="https://fonts.googleapis.com/css?family=Quicksand:500" rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-3.2.1.js">
-	</script> 
-
-	<script type="text/javascript">
-		$(window).on('scroll', function(){
-			if($(window).scrollTop()){
-				$('nav').addClass('black');
-			}
-			else {
-				$('nav').removeClass('black');
-			}
-		})
-	</script>
-
-	<link rel="stylesheet" type="text/css" href="assignment.css">
-
-
-
-
-
+	<link type="text/css" href="style.css" rel="stylesheet" charset="utf-8">
+	
 
 
 
@@ -33,57 +13,30 @@
 
 
 <body>
-	<div class="wrapper">
-    <nav>
-      <div class="logo">Luminous</div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="assignmenthub.html">Assignment</a></li>
-        <li><a href="#">Games</a></li>
-        <li><a class="active" href="#">Log In</a></li>
-      </ul>
-    </nav>
-    <section class="sec1"></section>
-    <section class="content"><p></p></section>
-  </div>
+	<nav>
+  <ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a>About</a></li>
+  <li><a>Assignment</a>
+    <ul>
+      <li><a>DataArray Change</a></li>
+      <li><a href="assignment2.html">Conole &amp Function</a></li>
+      <li><a href="assignment1.html">SVG Painting</a></li>
+    </ul>
+  </li>
 
 
-
-
-
-			<script>
-				var number = 2;
-				console.log(number);
-				var number = 
-				function(a){
-					if (a + 20 > 50){
-						console.log("Bigger");
-
-					}
-					else{
-						console.log("Smaller");
-					}
-				}
-
-
-				number(5);
-				number(9);
-
-
-				var rnum = Math.floor(Math.random() * 30);
-				console.log(rnum)
-				document.getElementById("change").innerHTML = "Here is the random number " + "(" + rnum + ")" + ".";
-
-			</script>
-		</p>
-	</span>
-
-
+  <li><a>Unity</a></li>
+  <li><a>Python</a></li>
+</ul>
+</nav>
 	
-	<h3 class="div1">First Assignment</h3>
+
+
 	<!--Svg scene-->
-	<div id="rect">
+
+	    
+	    <div>
 		<svg width="1020" height="700">
 			<rect x="20px" y="210px" width="1000px" height="450px"style=" fill:rgb(242,237,179); stroke-width:1; stroke:rgb(0,0,0)" />
 
@@ -351,19 +304,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 			<!--I don't know why the rect cannot use transform='rotate(15)' function here-->
 			<rect fill="rgb(129,180,53)" width="18" height="18" x="820" y="545" stroke="rgb(32,36,19)" stroke-width="2" transform='rotate(15) translate(120,-217)'/>
 
@@ -433,57 +373,13 @@
 			<!-- Why uses rotate,skewX will make the coordinator changes?-->
 			<rect x='845' y='395' width='70' height='20' fill=rgb(168,70,43) transform='rotate(33) translate(-1123,-499) skewX(72)' />
 
-
-
-
-
-			
-
-
-
-
-
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		</svg>
 	</div>
+	
+	
 
+  
+	
 
 
 </body>
