@@ -1,13 +1,15 @@
 <!doctype html>
 <html>
 <head>
-    <title>DataArray Change</title>
-    <meta charset="utf-8">
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <link type="text/css" href="style.css" rel="stylesheet" charset="utf-8">
+	<meta charset="utf-8">
+	<title>DataArray Change</title>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<link type="text/css" href="style.css" rel="stylesheet" charset="utf-8">
+	 <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
 </head>
+
 <body>
-    <nav>
+	 <nav>
   <ul>
   <li><a href="index.html">Home</a></li>
   <li><a>About</a></li>
@@ -25,129 +27,310 @@
 </ul>
 </nav>
 
-    <script>
-        //set up data
-        var dataset1 = [30, 50, 70, 90];
-        var dataset2 = [30, 40, 60];
-        
-
-        //basic parameters
-        var dataIndex = 1;
-        var space = 30;
-        var x0 = 40;
-        var y0 = 150;
-        var fulllength = 400;
-
-       
-        //build a svgcontainer
-        var svgcontainer = d3.select("body")
-                    .append("svg")
-                    .attr("width",600)
-                    .attr("height",600);
-
-            
-            
-            //draw circles
-            svgcontainer.append("g")
-                        .selectAll("circle")
-                        .data(eval("dataset" + dataIndex))
-                        .enter()
-                        .append("circle")
-                        .attr("cx", x0 + 230)
-                        .attr("cy", function(d,i){
-                            return y0 + i * space * 2;
-                        })
-                        .attr("r", function(d){
-                            return d;
-                        })
-                        .style("stroke-width", 0.5)
-                        .style("stroke", "black")
-                        .style("stroke-opacity", .5)
-                        .style("fill", function(d){
-                            if (d < 40) {
-                                return "#cc0000";
-                            }
-
-                            else {
-
-                                return "#ffffff";
-
-                            }
-                        });
-
-            
-            //Set up button
-            d3.select("body")
-              .append("button")
-              .text("Change Dataset")
-              .on("click", function(){
-                if (dataIndex == 1){
-                    dataIndex = 2;
-                } else {
-                    dataIndex = 1;
-                }
-                
-
-                //Refresh dataset
-                var circle = svgcontainer.select("g").selectAll("circle").data(eval("dataset" + dataIndex));
 
 
 
 
+	<script>  
 
-                circle.exit()
-                      .remove();
+		var dataset = [30, 80, 120];
 
+		var dataset2 = [80, 23, 90, 57, 39, 197];
 
-                circle.transition()
-                                  .duration(1000)
-                                  .attr("cx", x0 + 230)
-                                  .attr("cy", function(d,i){
-                            return y0 + i * space * 2;
-                        })
-                                  .attr("r", function(d){
-                            return d;
-                        })
+		var width  = 400;	
+		var height = 400;	
 
+        var svg = d3.select("body")			
+			        .append("svg")			
+			        .attr("width", width)	
+			        .attr("height", height);
 
-
-                circle.enter()
-                      .append("circle")
-                      .attr("cx", x0 + 230)
-                        .attr("cy", function(d,i){
-                            return y0 + i * space * 2;
-                        })
-                        .attr("r", function(d){
-                            return d;
-                        })
-                        .style("stroke-width", 0.5)
-                        .style("stroke", "black")
-                        .style("stroke-opacity", .5)
-                        .style("fill", function(d){
-                            if (d < 40) {
-                                return "#cc0000";
-                            }
-
-                            else {
-
-                                return "#ffffff";
-
-                            }
-
-                            
+        //outer padding
+        var padding = { top: 20 , right: 20, bottom: 20, left: 20 };
+        //rect's width + space
+        var rectStep = 35;	
+        //rect's width
+        var rectWidth = 30;
 
 
-                    });
-                        });
+            function draw(){
 
-            
+	
+	        var updateRect = svg.selectAll("rect")
+	                            .data(dataset);
+	
+	
+	        var enterRect = updateRect.enter();
+	
+	
+	        var exitRect = updateRect.exit();
+	
+	        //Enter Rect
+	            updateRect.attr("fill","#e60000")	
+			              .attr("x", function(d,i){	
+				return padding.left + i * rectStep;
+			})
+			              .attr("y", function(d){
+				return height - padding.bottom - d;
+			})
+			              .attr("width",rectWidth)		//set up rect's width
+			              .attr("height",function(d){	//set up rect's height
+				return d;
+			});
+
+	            //Update rects
+	            enterRect.append("rect")
+			             .attr("fill","#e60000")		
+			             .attr("x", function(d,i){		
+				return padding.left + i * rectStep;
+			})
+			             .attr("y", function(d){		
+				return height- padding.bottom - d;
+			})
+			             .attr("width",rectWidth)		
+			             .attr("height",function(d){	
+				return d;
+			});
+
+	            //Exit
+	            exitRect.remove();
+
+	
+	            //Update text(number)
+	            var updateText = svg.selectAll("text")
+	                                .data(dataset);
+	
+	            //Enter text(number)
+	            var enterText = updateText.enter();
+	
+	            //Exit text(number)
+	            var exitText = updateText.exit();
+	
+	            //1.text's attr
+	            updateText.attr("fill","white")
+	                      .attr("font-size","14px")
+	                      .attr("text-anchor","middle")
+	                      .attr("x", function(d,i){
+		                  return padding.left + i * rectStep;
+	                      })
+	                      .attr("y", function(d){
+		                  return height- padding.bottom - d;
+	                      })
+	                      .attr("dx",rectWidth/2)
+	                      .attr("dy","1em")
+	                      .text(function(d){
+		                   return d;
+	                        });
+	
+	             //2. 
+	             enterText.append("text")
+	                      .attr("fill","white")
+	                      .attr("font-size","14px")
+	                      .attr("text-anchor","middle")
+	                      .attr("x", function(d,i){
+		                        return padding.left + i * rectStep;
+	                            })
+	                      .attr("y", function(d){
+		                        return height- padding.bottom - d;
+	                            })
+	                      .attr("dx",rectWidth/2)
+	                      .attr("dy","1em")
+	                      .text(function(d){
+		                        return d;
+	                       });
+	
+	             //3. 
+	             exitText.remove();
+                 }
+
+                 draw();
+
+                function sort(){
+	                     dataset.sort(d3.ascending);
+	                     draw();
+                         }
 
 
-              
-                    
+                function add(){
+	            dataset.push( Math.floor(Math.random() * 350) );
+	                     draw();
+                         }
 
 
 
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //The third function
+                function change(){
+                	
+
+	
+	        var updateRect = svg.selectAll("rect")
+	                            .data(dataset2);
+	
+	
+	        var enterRect = updateRect.enter();
+	
+	
+	        var exitRect = updateRect.exit();
+	
+	        //Enter Rect
+	            updateRect.attr("fill","#e60000")	
+			              .attr("x", function(d,i){	
+				return padding.left + i * rectStep;
+			})
+			              .attr("y", function(d){
+				return height - padding.bottom - d;
+			})
+			              .attr("width",rectWidth)		//set up rect's width
+			              .attr("height",function(d){	//set up rect's height
+				return d;
+			});
+
+	            //Update rects
+	            enterRect.append("rect")
+			             .attr("fill","#e60000")		
+			             .attr("x", function(d,i){		
+				return padding.left + i * rectStep;
+			})
+			             .attr("y", function(d){		
+				return height- padding.bottom - d;
+			})
+			             .attr("width",rectWidth)		
+			             .attr("height",function(d){	
+				return d;
+			});
+
+	            //Exit
+	            exitRect.remove();
+
+	
+	            //Update text(number)
+	            var updateText = svg.selectAll("text")
+	                                .data(dataset2);
+	
+	            //Enter text(number)
+	            var enterText = updateText.enter();
+	
+	            //Exit text(number)
+	            var exitText = updateText.exit();
+	
+	            //1.text's attr
+	            updateText.attr("fill","white")
+	                      .attr("font-size","14px")
+	                      .attr("text-anchor","middle")
+	                      .attr("x", function(d,i){
+		                  return padding.left + i * rectStep;
+	                      })
+	                      .attr("y", function(d){
+		                  return height- padding.bottom - d;
+	                      })
+	                      .attr("dx",rectWidth/2)
+	                      .attr("dy","1em")
+	                      .text(function(d){
+		                   return d;
+	                        });
+	
+	             //2. 
+	             enterText.append("text")
+	                      .attr("fill","white")
+	                      .attr("font-size","14px")
+	                      .attr("text-anchor","middle")
+	                      .attr("x", function(d,i){
+		                        return padding.left + i * rectStep;
+	                            })
+	                      .attr("y", function(d){
+		                        return height- padding.bottom - d;
+	                            })
+	                      .attr("dx",rectWidth/2)
+	                      .attr("dy","1em")
+	                      .text(function(d){
+		                        return d;
+	                       });
+	
+	             //3. 
+	             exitText.remove();
+                 }
+
+
+
+
+
+
+
+                //new dataarray loop
+                 var updateRect = svg.selectAll("rect")
+	                            .data(dataset);
+	
+	
+	        var enterRect = updateRect.enter();
+	
+	
+	        var exitRect = updateRect.exit();
+	
+	        //Enter Rect
+	            updateRect.attr("fill","#e60000")	
+			              .attr("x", function(d,i){	
+				return padding.left + i * rectStep;
+			})
+			              .attr("y", function(d){
+				return height - padding.bottom - d;
+			})
+			              .attr("width",rectWidth)		//set up rect's width
+			              .attr("height",function(d){	//set up rect's height
+				return d;
+			});
+
+	            //Update rects
+	            enterRect.append("rect")
+			             .attr("fill","#e60000")		
+			             .attr("x", function(d,i){		
+				return padding.left + i * rectStep;
+			})
+			             .attr("y", function(d){		
+				return height- padding.bottom - d;
+			})
+			             .attr("width",rectWidth)		
+			             .attr("height",function(d){	
+				return d;
+			});
+
+	            //Exit
+	            exitRect.remove();
+
+
+
+	
+	           
+	             
+	            
+                         
+
+</script> 
+
+<br />
+
+<button type="button" onclick="sort()">   Sort  </button>
+<button type="button" onclick="add()">   Add Values  </button>
+<button type="button" onclick="change()">  New DataArray  </button>
+
 </body>
+
 </html>
+
+

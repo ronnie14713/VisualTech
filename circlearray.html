@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <title>DataArray Change</title>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link type="text/css" href="style.css" rel="stylesheet" charset="utf-8">
+</head>
+<body>
+    <nav>
+  <ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a>About</a></li>
+  <li><a>Assignment</a>
+    <ul>
+      <li><a href="assignment3.html">DataArray Change</a></li>
+      <li><a href="assignment2.html">Console &amp Function</a></li>
+      <li><a href="assignment1.html">SVG Painting</a></li>
+    </ul>
+  </li>
+
+
+  <li><a>Unity</a></li>
+  <li><a>Python</a></li>
+</ul>
+</nav>
+
+    <script>
+        //set up data
+        var dataset1 = [30, 50, 70, 90];
+        var dataset2 = [30, 40, 60];
+        
+
+        //basic parameters
+        var dataIndex = 1;
+        var space = 30;
+        var x0 = 40;
+        var y0 = 150;
+        var fulllength = 400;
+
+       
+        //build a svgcontainer
+        var svgcontainer = d3.select("body")
+                    .append("svg")
+                    .attr("width",600)
+                    .attr("height",600);
+
+            
+            
+            //draw circles
+            svgcontainer.append("g")
+                        .selectAll("circle")
+                        .data(eval("dataset" + dataIndex))
+                        .enter()
+                        .append("circle")
+                        .attr("cx", x0 + 230)
+                        .attr("cy", function(d,i){
+                            return y0 + i * space * 2;
+                        })
+                        .attr("r", function(d){
+                            return d;
+                        })
+                        .style("stroke-width", 0.5)
+                        .style("stroke", "black")
+                        .style("stroke-opacity", .5)
+                        .style("fill", function(d){
+                            if (d < 40) {
+                                return "#cc0000";
+                            }
+
+                            else {
+
+                                return "#ffffff";
+
+                            }
+                        });
+
+            
+            //Set up button
+            d3.select("body")
+              .append("button")
+              .text("Change Dataset")
+              .on("click", function(){
+                if (dataIndex == 1){
+                    dataIndex = 2;
+                } else {
+                    dataIndex = 1;
+                }
+                
+
+                //Refresh dataset
+                var circle = svgcontainer.select("g").selectAll("circle").data(eval("dataset" + dataIndex));
+
+
+
+
+
+                circle.exit()
+                      .remove();
+
+
+                circle.transition()
+                                  .duration(1000)
+                                  .attr("cx", x0 + 230)
+                                  .attr("cy", function(d,i){
+                            return y0 + i * space * 2;
+                        })
+                                  .attr("r", function(d){
+                            return d;
+                        })
+
+
+
+                circle.enter()
+                      .append("circle")
+                      .attr("cx", x0 + 230)
+                        .attr("cy", function(d,i){
+                            return y0 + i * space * 2;
+                        })
+                        .attr("r", function(d){
+                            return d;
+                        })
+                        .style("stroke-width", 0.5)
+                        .style("stroke", "black")
+                        .style("stroke-opacity", .5)
+                        .style("fill", function(d){
+                            if (d < 40) {
+                                return "#cc0000";
+                            }
+
+                            else {
+
+                                return "#ffffff";
+
+                            }
+
+                            
+
+
+                    });
+                        });
+
+            
+
+
+              
+                    
+
+
+
+    </script>
+</body>
+</html>
