@@ -9,29 +9,19 @@
 </head>
 
 <body>
-	 <nav>
+	<nav>
   <ul>
   <li><a href="index.html">Home</a></li>
-  <li><a>About</a></li>
-  <li><a>Assignment</a>
-    <ul>
-      <li><a href="assignment3.html">DataArray Change</a></li>
-      <li><a href="assignment2.html">Console &amp Function</a></li>
-      <li><a href="assignment1.html">SVG Painting</a></li>
-    </ul>
-  </li>
-
-
-  <li><a>Unity</a></li>
-  <li><a>Python</a></li>
+    
 </ul>
 </nav>
-
+	 
 
 
 
 
 	<script>  
+
 
 		var dataset = [30, 80, 120];
 
@@ -144,6 +134,8 @@
                  }
 
                  draw();
+
+
 
                 function sort(){
 	                     dataset.sort(d3.ascending);
@@ -312,22 +304,21 @@
 
 	            //Exit
 	            exitRect.remove();
-
-
-
-	
-	           
-	             
-	            
-                         
+             
 
 </script> 
-
 <br />
-
+<g>
 <button type="button" onclick="sort()">   Sort  </button>
 <button type="button" onclick="add()">   Add Values  </button>
-<button type="button" onclick="change()">  New DataArray  </button>
+<button type="button" onclick="change()">  New DataArray  </button> 
+</g>
+
+
+
+
+
+
 
 </body>
 
