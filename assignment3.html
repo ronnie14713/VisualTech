@@ -63,7 +63,17 @@
 	        var exitRect = updateRect.exit();
 	
 	        //Enter Rect
-	            updateRect.attr("fill","#e60000")	
+	            updateRect.attr("fill","#e60000")
+	                      .on("mouseover",function(d,i){
+			            d3.select(this)
+				          .attr("fill","yellow");
+		        })
+		                  .on("mouseout",function(d,i){
+			            d3.select(this)
+				          .transition()
+		                  .duration(500)
+				          .attr("fill","#e60000");
+		})			
 			              .attr("x", function(d,i){	
 				return padding.left + i * rectStep;
 			})
@@ -77,11 +87,21 @@
 
 	            //Update rects
 	            enterRect.append("rect")
-			             .attr("fill","#e60000")		
-			             .attr("x", function(d,i){		
+			             .attr("fill","#e60000")
+			             .on("mouseover",function(d,i){
+			           d3.select(this)
+				.attr("fill","yellow");
+		     })
+		        .on("mouseout",function(d,i){
+			  d3.select(this)
+				.transition()
+		        .duration(500)
+				.attr("fill","#e60000");
+		})				
+			    .attr("x", function(d,i){		
 				return padding.left + i * rectStep;
 			})
-			             .attr("y", function(d){		
+			    .attr("y", function(d){		
 				return height- padding.bottom - d;
 			})
 			             .attr("width",rectWidth)		
@@ -189,7 +209,17 @@
 	        var exitRect = updateRect.exit();
 	
 	        //Enter Rect
-	            updateRect.attr("fill","#e60000")	
+	            updateRect.attr("fill","#e60000")
+	                      .on("mouseover",function(d,i){
+			            d3.select(this)
+				          .attr("fill","yellow");
+		})
+		                  .on("mouseout",function(d,i){
+			            d3.select(this)
+				          .transition()
+		                  .duration(500)
+				          .attr("fill","#e60000");
+		})			
 			              .attr("x", function(d,i){	
 				return padding.left + i * rectStep;
 			})
@@ -199,11 +229,24 @@
 			              .attr("width",rectWidth)		//set up rect's width
 			              .attr("height",function(d){	//set up rect's height
 				return d;
+
+
 			});
+			              
 
 	            //Update rects
 	            enterRect.append("rect")
-			             .attr("fill","#e60000")		
+			             .attr("fill","#e60000")
+			             .on("mouseover",function(d,i){
+			           d3.select(this)
+				         .attr("fill","yellow");
+		})
+		                 .on("mouseout",function(d,i){
+			           d3.select(this)
+				         .transition()
+		                 .duration(500)
+				         .attr("fill","#e60000");
+		})		
 			             .attr("x", function(d,i){		
 				return padding.left + i * rectStep;
 			})
@@ -214,6 +257,7 @@
 			             .attr("height",function(d){	
 				return d;
 			});
+
 
 	            //Exit
 	            exitRect.remove();
@@ -273,7 +317,7 @@
 
 
                 //new dataarray loop
-                 var updateRect = svg.selectAll("rect")
+            var updateRect = svg.selectAll("rect")
 	                            .data(dataset);
 	
 	
@@ -283,7 +327,17 @@
 	        var exitRect = updateRect.exit();
 	
 	        //Enter Rect
-	            updateRect.attr("fill","#e60000")	
+	            updateRect.attr("fill","#e60000")
+	                      .on("mouseover",function(d,i){
+			            d3.select(this)
+				          .attr("fill","yellow");
+		})
+		                  .on("mouseout",function(d,i){
+			            d3.select(this)
+				          .transition()
+		                  .duration(500)
+				          .attr("fill","#e60000");
+		})			
 			              .attr("x", function(d,i){	
 				return padding.left + i * rectStep;
 			})
@@ -297,7 +351,17 @@
 
 	            //Update rects
 	            enterRect.append("rect")
-			             .attr("fill","#e60000")		
+			             .attr("fill","#e60000")
+			             .on("mouseover",function(d,i){
+			           d3.select(this)
+				         .attr("fill","yellow");
+		})
+		                 .on("mouseout",function(d,i){
+			           d3.select(this)
+				         .transition()
+		                 .duration(500)
+				         .attr("fill","#e60000");
+		})		
 			             .attr("x", function(d,i){		
 				return padding.left + i * rectStep;
 			})
@@ -309,26 +373,21 @@
 				return d;
 			});
 
+			             
+
 	            //Exit
 	            exitRect.remove();
              
 
-</script> 
-<br />
-<div class="btn">
-<button type="button" onclick="sort()">   Sort  </button>
-<button type="button" onclick="add()">   Add Values  </button>
-<button type="button" onclick="change()">  New DataArray  </button> 
-</div>
-
-
-
-
-
-
+    </script> 
+    <br />
+        <div class="btn">
+        <button type="button" onclick="sort()">   Sort  </button>
+        <button type="button" onclick="add()">   Add Values  </button>
+        <button type="button" onclick="change()">  New DataArray  </button> 
+        </div>
 
 </body>
-
 </html>
 
 
