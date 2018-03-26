@@ -15,17 +15,18 @@
 	<svg id="map", width="800", height="600">
 		<rect width="800", height="600" fill="white"></rect>
 	</svg>
-  <div id="input">
-      <select id="buttonMonth">
+  <p>Select from the box to see the specific month's data</p>
+      <select id="button" onchange="myFunction()">
+      <option value="all">All</option>
       <option value="01">January</option>
       <option value="02">Feburary</option>
       <option value="03">March</option>
       <option value="04">April</option>
       <option value="05">May</option>
       <option value="06">June</option>
-      <option value="all">All</option>
+      
     </select> 
-  </div>
+  
 </body>
 
 <script>
@@ -87,11 +88,11 @@
 
         console.log(oldestData);
 
-        eachMonth = oldestData.filter(function(oldestData,i){
-            return oldestData * i
 
 
-        })
+
+
+
 
         
 
@@ -124,12 +125,29 @@
                        .attr("opacity", 0.25)
                        .attr("r",5);
 
+
+
+        var eachMonth = dataSet.getMonth()
+
+
+        function myFunction(d,i) {       
+        if (eachMonth == i){
+          return       d3.select("#map").selectAll("circle")
+                       .data(eachMonth)
+                       .enter().append("circle")
+                       .attr("transform", function(d){
+                        return "translate(" + proj([d.Longitude,d.Latitude]) + ")";
+                        })
+                       .attr("fill", "red")
+                       .attr("opacity", 0.25)
+                       .attr("r",5); 
+        };
+
+
         
-         //Hello Dave, Look at here.
-         // var buttons = d3.select("#buttonMonth")
-         //              buttons.on("click", function(d){
 
-         // });
+
+        
 
 
 
@@ -141,11 +159,21 @@
 
 
 
+        };
+
+        // var rewrite_circles = function myFunction(){
+
+        //                       var x = document.getElementById("button").value;
+
+        //                       document.getElementById()
 
 
-
-      
-
+        //                       svg.selectAll("circles")
+        //                                              .enter()
+        //                                               .attr("fill","red")
+        //                                               .on("click", function(d,i){
+        //                                                if buttonMonth;
+        //                                               });
 
 
 
