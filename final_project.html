@@ -16,7 +16,7 @@
 		<rect width="800", height="600" fill="white"></rect>
 	</svg>
   <div id="input">
-    <!-- <select>
+      <select id="buttonMonth">
       <option value="01">January</option>
       <option value="02">Feburary</option>
       <option value="03">March</option>
@@ -24,7 +24,7 @@
       <option value="05">May</option>
       <option value="06">June</option>
       <option value="all">All</option>
-    </select> -->
+    </select> 
   </div>
 </body>
 
@@ -87,7 +87,8 @@
 
         console.log(oldestData);
 
-        eachMonthData = oldestData.filter(function(oldestData){
+        eachMonth = oldestData.filter(function(oldestData,i){
+            return oldestData * i
 
 
         })
@@ -124,22 +125,14 @@
                        .attr("r",5);
 
         
+        
+         var buttons = d3.select("#buttonMonth")
+                      buttons.on("click", function(d){
+                        .data(eachMonth);
 
-        var dataset1 = ["January","Feburary","March","April","May","June"]
-        var buttons = d3.select("body")
-                        .append("div")
-                        .attr("class","years_buttons")
-                        .selectAll("div")
-                        .data(dataset1)
-                        .enter()
-                        .append("div")
-                        .text(function(d){
-                          return d.name;
-                        });
 
-         buttons.on("click", function(d){
-                    d3.select(this)
-                    update(d);
+
+                       
 
          });
 
@@ -169,14 +162,6 @@
 
 
       });
-
-
-
-   
-
-    
-	
-
 
 </script>
 
