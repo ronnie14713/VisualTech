@@ -1,22 +1,22 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Cambridge Traffic Crash Map</title>
-	<script src="https://d3js.org/d3.v4.min.js">
-	</script>	
-	<script src="https://unpkg.com/topojson@3"></script>
+  <meta charset="utf-8">
+  <title>Cambridge Traffic Crash Map</title>
+  <script src="https://d3js.org/d3.v4.min.js">
+  </script> 
+  <script src="https://unpkg.com/topojson@3"></script>
 
 </head>
 <style>
 </style>
 
 <body>
-	<svg id="map", width="800", height="600">
-		<rect width="800", height="600" fill="white"></rect>
-	</svg>
+  <svg id="map", width="800", height="600">
+    <rect width="800", height="600" fill="white"></rect>
+  </svg>
   <p>Select from the box to see the specific month's data</p>
-      <select id="button" onchange="myFunction()">
+      <select id="button" onchange="redraw(this.value)">
       <option value="all">All</option>
       <option value="01">January</option>
       <option value="02">Feburary</option>
@@ -31,42 +31,42 @@
 
 <script>
 
-	function datafold(json) {
-	    return json.data.map(function(data){
-	      return json.meta.view.columns.reduce(function(obj, header, i){
-	        obj[header.name] = data[i];
-	        return obj;
-	      }, {});
-	    });
-	  }
+  var redraw;
+
+  function datafold(json) {
+      return json.data.map(function(data){
+        return json.meta.view.columns.reduce(function(obj, header, i){
+          obj[header.name] = data[i];
+          return obj;
+        }, {});
+      });
+    }
 
     let dataSet = [];
     d3.queue()
       .defer(d3.json,"cambridge.geojson")
       .defer(d3.json, "cambridge crash data.json")
       .awaitAll(function(error,dataArray){
-      	if (error) console.log(error);
-      	var geoJSON = dataArray[0];
+        if (error) console.log(error);
+        var geoJSON = dataArray[0];
         dataSet = dataArray[1];
-      	console.log(dataArray[1]);
-      	var crashData = datafold(dataArray[1]).filter(function(d){
-      		return d.Longitude && d.Latitude;
+        console.log(dataArray[1]);
+        var crashData = datafold(dataArray[1]).filter(function(d){
+          return d.Longitude && d.Latitude;
 
-      	});
-      	
-        let m = [1, 2, 3, 4, 5, 6];
-
+        });
+        
         crashData.forEach(function(d) {
           let a = new Date(d["Date Time"]);
-      		d.year = a.getFullYear();
+          d.year = a.getFullYear();
           d.month = a.getMonth();
-      	});
+        });
 
-      	console.log(crashData);
+        console.log(crashData);
 
-      	var years = Array.from(new Set(crashData.map(function(d) {
-      		return d.year;
-      	}))).sort();
+        var years = Array.from(new Set(crashData.map(function(d) {
+          return d.year;
+        }))).sort();
 
 
         function getYear(prm){
@@ -79,12 +79,11 @@
           }
           return null;
         }  
-      	
+        
 
-      	var oldestData = crashData.filter(function(d) {
-          var obj = getYear(2016);
-      		return d.year == years[obj];
-      	});
+        var oldestData = crashData.filter(function(d) {
+          return d.year == 2016;
+        });
 
         console.log(oldestData);
 
@@ -98,86 +97,62 @@
 
         
 
-      	var proj = d3.geoAlbersUsa()
-      	             .fitSize([600,400], geoJSON);
+        var proj = d3.geoAlbersUsa()
+                     .fitSize([600,400], geoJSON);
 
-      	var path = d3.geoPath()
-      	             .projection(proj);
+        var path = d3.geoPath()
+                     .projection(proj);
 
-      	var streets = d3.select("#map").selectAll("path")
-      	                  .data(geoJSON.features);
-      	streets.enter().append("path")
-      	       .attr("d", function(d){
-      	       	return path(d);
-      	       })
-      	       .attr("fill","lightgrey")
-      	       .attr("stroke-width",1)
-      	       .attr("stroke","lightblue")
-
-
-      	var circles = d3.select("#map").selectAll("circle")
-      	               .data(oldestData)
-                       .enter().append("circle")
-                       .attr("transform", function(d){
-                        return "translate(" + proj([d.Longitude,d.Latitude]) + ")";
-                        })
-                       .attr("fill", "red")
-                       .attr("opacity", 0.25)
-                       .attr("r",5);
-
-
-
-        var eachMonth = dataSet.getMonth()
-
-
-        function myFunction(d,i) {       
-        if (eachMonth == i){
-          return       d3.select("#map").selectAll("circle")
-                       .data(eachMonth)
-                       .enter().append("circle")
-                       .attr("transform", function(d){
-                        return "translate(" + proj([d.Longitude,d.Latitude]) + ")";
-                        })
-                       .attr("fill", "red")
-                       .attr("opacity", 0.25)
-                       .attr("r",5); 
-        };
-
-
-        
+        var streets = d3.select("#map").selectAll("path")
+                          .data(geoJSON.features);
+        streets.enter().append("path")
+               .attr("d", function(d){
+                return path(d);
+               })
+               .attr("fill","lightgrey")
+               .attr("stroke-width",1)
+               .attr("stroke","lightblue")
 
 
         
 
 
 
+        
 
 
+        redraw = function(month) {
 
+          if (month == "all") {
+            var monthData = oldestData;
+          }
+          else {
+            month = parseInt(month) - 1;
+            var monthData = oldestData.filter(function(d) {
+              return d.month == month;
+            });
+          }
+          console.log(month, monthData);
 
+          var circleUpdate = d3.select("#map").selectAll("circle")
+           .data(monthData, function(d) {
+            return d.sid;
+           });
 
+          var circleEnter = circleUpdate.enter().append("circle");
 
+          circleUpdate.merge(circleEnter)
+           .attr("transform", function(d){
+            return "translate(" + proj([d.Longitude,d.Latitude]) + ")";
+            })
+           .attr("fill", "red")
+           .attr("opacity", 0.25)
+           .attr("r",5);
 
+          circleUpdate.exit().remove();
+        }
 
-        };
-
-        // var rewrite_circles = function myFunction(){
-
-        //                       var x = document.getElementById("button").value;
-
-        //                       document.getElementById()
-
-
-        //                       svg.selectAll("circles")
-        //                                              .enter()
-        //                                               .attr("fill","red")
-        //                                               .on("click", function(d,i){
-        //                                                if buttonMonth;
-        //                                               });
-
-
-
-
+        redraw("06");
 
 
 
