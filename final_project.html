@@ -12,8 +12,9 @@
 </style>
 
 <body>
-  <svg id="map", width="800", height="600">
-    <rect width="800", height="600" fill="white"></rect>
+  <h2>Cambridge Boston Crash Frenquency Analysis 2016/01-2016/06</h2>
+  <svg id="map", width="800", height="500">
+    <rect width="650", height="400" fill="#fbfbf8"></rect>
   </svg>
   <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
@@ -32,6 +33,12 @@
 <script>
 
   var redraw;
+
+  
+
+  
+
+
 
   function datafold(json) {
       return json.data.map(function(data){
@@ -125,6 +132,7 @@
 
           if (month == "all") {
             var monthData = oldestData;
+            console.log(monthData);
           }
           else {
             month = parseInt(month) - 1;
@@ -146,13 +154,13 @@
             return "translate(" + proj([d.Longitude,d.Latitude]) + ")";
             })
            .attr("fill", "red")
-           .attr("opacity", 0.25)
+           .attr("opacity", 0.4)
            .attr("r",5);
 
           circleUpdate.exit().remove();
         }
 
-        redraw("06");
+        redraw("all");
 
 
 
