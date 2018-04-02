@@ -11,9 +11,12 @@
 <style>
 </style>
 
-<body>
-  <h2>Cambridge Boston Crash Frenquency Analysis 2016/01-2016/06</h2>
-  <svg id="map", width="800", height="500">
+<body bgcolor="#fbfbf8">
+  <h2>Cambridge Crash Data Report January to June 2016</h2>
+  
+
+    
+      <svg id="map", width="800", height="500">
     <rect width="650", height="400" fill="#fbfbf8"></rect>
   </svg>
   <p>Select from the box to see the specific month's data</p>
@@ -27,6 +30,8 @@
       <option value="06">June</option>
       
     </select> 
+    
+   
   
 </body>
 
@@ -57,7 +62,7 @@
         if (error) console.log(error);
         var geoJSON = dataArray[0];
         dataSet = dataArray[1];
-        console.log(dataArray[1]);
+        
         var crashData = datafold(dataArray[1]).filter(function(d){
           return d.Longitude && d.Latitude;
 
@@ -65,11 +70,14 @@
         
         crashData.forEach(function(d) {
           let a = new Date(d["Date Time"]);
-          d.year = a.getFullYear();
-          d.month = a.getMonth();
+          //elict the "Date Time" from the dataSet
+          
+          d.year = a.getFullYear(); //get the year
+          d.month = a.getMonth(); //get the month
+
         });
 
-        console.log(crashData);
+      
 
         var years = Array.from(new Set(crashData.map(function(d) {
           return d.year;
@@ -92,8 +100,7 @@
           return d.year == 2016;
         });
 
-        console.log(oldestData);
-
+        
 
 
 
@@ -130,9 +137,11 @@
 
         redraw = function(month) {
 
+
+
           if (month == "all") {
             var monthData = oldestData;
-            console.log(monthData);
+            
           }
           else {
             month = parseInt(month) - 1;
@@ -140,12 +149,13 @@
               return d.month == month;
             });
           }
-          console.log(month, monthData);
+          
 
           var circleUpdate = d3.select("#map").selectAll("circle")
            .data(monthData, function(d) {
             return d.sid;
            });
+
 
           var circleEnter = circleUpdate.enter().append("circle");
 
@@ -158,16 +168,19 @@
            .attr("r",5);
 
           circleUpdate.exit().remove();
-        }
-
-        redraw("all");
+      
 
 
 
+          redraw("all");
+
+      
 
 
 
-      });
+
+
+
 
 </script>
 
