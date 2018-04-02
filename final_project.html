@@ -16,11 +16,7 @@
   
 
     
-      <svg id="map", width="800", height="500">
-    
-
-
-  </svg>
+      <svg id="map", width="800", height="500"></svg>
   <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
       <option value="all">All</option>
@@ -30,8 +26,10 @@
       <option value="04">April</option>
       <option value="05">May</option>
       <option value="06">June</option>
-      
-    </select> 
+       </select> 
+
+  <div id="area2" width=400, height=400>
+  </div>
     
    
   
@@ -63,8 +61,6 @@
       .awaitAll(function(error,dataArray){
         if (error) console.log(error);
         var geoJSON = dataArray[0];
-        dataSet = dataArray[1];
-        console.log(dataArray[1]);
         var crashData = datafold(dataArray[1]).filter(function(d){
           return d.Longitude && d.Latitude;
 
@@ -76,7 +72,7 @@
           d.month = a.getMonth();
         });
 
-        console.log(crashData);
+        
 
         var years = Array.from(new Set(crashData.map(function(d) {
           return d.year;
@@ -99,7 +95,7 @@
           return d.year == 2016;
         });
 
-        console.log(oldestData);
+       
 
 
 
@@ -139,7 +135,7 @@
 
           if (month == "all") {
             var monthData = oldestData;
-            console.log(monthData);
+            
           }
           else {
             month = parseInt(month) - 1;
@@ -168,7 +164,6 @@
         }
 
         redraw("all");
-
 
 
 
