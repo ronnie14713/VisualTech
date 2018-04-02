@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Cambridge Traffic Crash Map</title>
+  <title>Cambridge Traffic Crash</title>
   <script src="https://d3js.org/d3.v4.min.js">
   </script> 
   <script src="https://unpkg.com/topojson@3"></script>
@@ -12,12 +12,14 @@
 </style>
 
 <body bgcolor="#fbfbf8">
-  <h2>Cambridge Crash Data Report January to June 2016</h2>
+  <h2>Cambridge Crash Data Jan-June,2016</h2>
   
 
     
       <svg id="map", width="800", height="500">
-    <rect width="650", height="400" fill="#fbfbf8"></rect>
+    
+
+
   </svg>
   <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
@@ -35,8 +37,8 @@
   
 </body>
 
-<script>
 
+<script>
   var redraw;
 
   
@@ -62,7 +64,7 @@
         if (error) console.log(error);
         var geoJSON = dataArray[0];
         dataSet = dataArray[1];
-        
+        console.log(dataArray[1]);
         var crashData = datafold(dataArray[1]).filter(function(d){
           return d.Longitude && d.Latitude;
 
@@ -70,14 +72,11 @@
         
         crashData.forEach(function(d) {
           let a = new Date(d["Date Time"]);
-          //elict the "Date Time" from the dataSet
-          
-          d.year = a.getFullYear(); //get the year
-          d.month = a.getMonth(); //get the month
-
+          d.year = a.getFullYear();
+          d.month = a.getMonth();
         });
 
-      
+        console.log(crashData);
 
         var years = Array.from(new Set(crashData.map(function(d) {
           return d.year;
@@ -100,7 +99,8 @@
           return d.year == 2016;
         });
 
-        
+        console.log(oldestData);
+
 
 
 
@@ -137,11 +137,9 @@
 
         redraw = function(month) {
 
-
-
           if (month == "all") {
             var monthData = oldestData;
-            
+            console.log(monthData);
           }
           else {
             month = parseInt(month) - 1;
@@ -149,13 +147,12 @@
               return d.month == month;
             });
           }
-          
+          console.log(month, monthData);
 
           var circleUpdate = d3.select("#map").selectAll("circle")
            .data(monthData, function(d) {
             return d.sid;
            });
-
 
           var circleEnter = circleUpdate.enter().append("circle");
 
@@ -168,19 +165,16 @@
            .attr("r",5);
 
           circleUpdate.exit().remove();
-      
+        }
 
-
-
-          redraw("all");
-
-      
+        redraw("all");
 
 
 
 
 
 
+      });
 
 </script>
 
