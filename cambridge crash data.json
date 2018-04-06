@@ -443,7 +443,7 @@
         "format" : { }
       }, {
         "id" : 270283548,
-        "name" : "Steet Name",
+        "name" : "Street Name",
         "dataTypeName" : "text",
         "fieldName" : "steet_name",
         "position" : 7,

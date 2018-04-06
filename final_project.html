@@ -1,134 +1,138 @@
 <!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Cambridge Traffic Crash</title>
-  <script src="https://d3js.org/d3.v4.min.js">
-  </script> 
-  <script src="https://unpkg.com/topojson@3"></script>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Cambridge Traffic Crash</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script> 
+    <script src="https://unpkg.com/topojson@3"></script>
+    <style>
+      #area1 {
+        display: inline-block;
+        width: 800px;
+      }
+      .area2 {
+        display: inline-block;
+      }
+    </style>
+  </head>
 
-</head>
-<style>
-</style>
-
-<body bgcolor="#fbfbf8">
-  <h2>Cambridge Crash Data Jan-June,2016</h2>
   
 
-    
+
+  <body bgcolor="#fbfbf8">
+    <h2>Cambridge Crash Data Jan-June,2016</h2>
+    <div id="area1">
       <svg id="map", width="800", height="500"></svg>
-  <p>Select from the box to see the specific month's data</p>
+      <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
-      <option value="all">All</option>
-      <option value="01">January</option>
-      <option value="02">Feburary</option>
-      <option value="03">March</option>
-      <option value="04">April</option>
-      <option value="05">May</option>
-      <option value="06">June</option>
+        <option value="all">All</option>
+        <option value="01">January</option>
+        <option value="02">Feburary</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
        </select> 
-
-  <div id="area2" width=400, height=400>
-  </div>
+    </div>
+    <div class="area2">
+    </div>
     
-   
-  
-</body>
+  </body>
 
 
-<script>
-  var redraw;
+  <script>
+    var redraw;
+    
+    //
+    function datafold(json) {
+             return json.data.map(function(data){
+               return json.meta.view.columns.reduce(function(obj, header, i){
+                 obj[header.name] = data[i];
+                   return obj;
+                         },
+                      {});
+                    });
+                  }
 
-  
-
-  
+      
 
 
+      let dataSet = [];
+      d3.queue()
+        .defer(d3.json,"cambridge.geojson")
+        .defer(d3.json, "cambridge crash data.json")
+        .awaitAll(function(error,dataArray){
+          if (error) console.log(error);
+            var geoJSON = dataArray[0];
+            var crashData = datafold(dataArray[1]).filter(function(d){
+              return d.Longitude && d.Latitude;
+          });
+          
 
-  function datafold(json) {
-      return json.data.map(function(data){
-        return json.meta.view.columns.reduce(function(obj, header, i){
-          obj[header.name] = data[i];
-          return obj;
-        }, {});
-      });
-    }
 
-    let dataSet = [];
-    d3.queue()
-      .defer(d3.json,"cambridge.geojson")
-      .defer(d3.json, "cambridge crash data.json")
-      .awaitAll(function(error,dataArray){
-        if (error) console.log(error);
-        var geoJSON = dataArray[0];
-        var crashData = datafold(dataArray[1]).filter(function(d){
-          return d.Longitude && d.Latitude;
-
-        });
-        
-        crashData.forEach(function(d) {
-          let a = new Date(d["Date Time"]);
-          d.year = a.getFullYear();
-          d.month = a.getMonth();
+      crashData.forEach(function(d) {
+            let a = new Date(d["Date Time"]);
+            d.year = a.getFullYear();
+            d.month = a.getMonth();
         });
 
-        
+          
 
-        var years = Array.from(new Set(crashData.map(function(d) {
-          return d.year;
-        }))).sort();
+          var years = Array.from(new Set(crashData.map(function(d) {
+                      return d.year;
+                      }))).sort();
 
 
-        function getYear(prm){
-          var check = false;
-          for(var i = 0; i < years.length; i++) {
-            if(years[i] == prm) {
-              console.log("year: " + years[i] + " index: " + i);
-              return i;
+          function getYear(prm){
+            var check = false;
+            for(var i = 0; i < years.length; i++) {
+              if(years[i] == prm) {
+                console.log("year: " + years[i] + " index: " + i);
+                return i;
+              }
             }
-          }
-          return null;
-        }  
-        
+            return null;
+          }  
+          
 
-        var oldestData = crashData.filter(function(d) {
-          return d.year == 2016;
-        });
+          var oldestData = crashData.filter(function(d) {
+            return d.year == 2016;
+          });
 
-       
-
+         
 
 
 
 
 
 
-        
 
-        
+          
 
-        var proj = d3.geoAlbersUsa()
-                     .fitSize([600,400], geoJSON);
+          
 
-        var path = d3.geoPath()
-                     .projection(proj);
+      var proj = d3.geoAlbersUsa()
+                   .fitSize([600,400], geoJSON);
 
-        var streets = d3.select("#map").selectAll("path")
-                          .data(geoJSON.features);
-        streets.enter().append("path")
-               .attr("d", function(d){
-                return path(d);
-               })
-               .attr("fill","lightgrey")
-               .attr("stroke-width",1)
-               .attr("stroke","lightblue")
+      var path = d3.geoPath()
+                   .projection(proj);
 
-
-        
+      var streets = d3.select("#map").selectAll("path")
+                      .data(geoJSON.features);
+                      streets.enter().append("path")
+                             .attr("d", function(d){
+                              return path(d);
+                             })
+                             .attr("fill","lightgrey")
+                             .attr("stroke-width",1)
+                             .attr("stroke","lightblue")
 
 
+          
 
-        
+
+
+          
 
 
         redraw = function(month) {
@@ -161,20 +165,149 @@
            .attr("r",5);
 
           circleUpdate.exit().remove();
-        }
 
-        redraw("all");
-
-
-
-
-
-      });
-
-</script>
+          
 
 
 
 
 
-</html>
+
+          var StreetData = d3.nest()
+            .key(function(d) {
+              return d["Street Name"];
+            })
+            .entries(monthData)
+            .sort(function(a, b) {
+              return b.values.length - a.values.length;
+            });
+          
+          console.log(StreetData);
+
+
+
+
+
+          //draw bar chart
+          var width = 300;
+          var height = 300;
+
+          
+          // var linear = d3.scaleLinear()
+          //               .domain([0,d3.max(StreetData)])
+          //               .range([0,100]);
+
+
+        
+
+          var linearScale = d3.scaleLinear()
+                             .domain([0,d3.max(StreetData)])
+                             .range([0, 100]);
+          
+
+          var rectHeight = 25;
+
+          var svg2 = d3.select(".area2")
+                       .append("svg")
+                       .attr('width',width)
+                       .attr("height",height);
+
+          var rects = svg2.selectAll("rect")
+                          .data(StreetData)
+                          .enter()
+                          .append("rect")
+                          .attr("x",20)
+                          .attr("y", function(d,i){
+                            if(i<10){
+                              console.log(i);
+                              return i * rectHeight;
+                              
+                            }
+                            
+                          })
+                          .attr("width", function(d){
+                            return linearScale(d.values.length); 
+                          })
+                          .attr("height", rectHeight-2)
+                          .attr("fill", "steelblue");
+
+
+          var text = svg2.selectAll("text")
+                         .data(StreetData)
+                         .enter()
+                         .append("text")
+                         .text(function(d){
+                          return d.key;
+                         })
+                         .attr("x", 5)
+                         .attr("y", function(d,i){
+                          if(i<10){return i * rectHeight;
+
+                          }
+                         .attr('transform','translate(-20,0)')
+
+                          
+                        });
+
+            
+            // bar logic goes here
+          }
+
+
+
+        
+
+
+          redraw("all");
+
+          
+
+
+
+          
+
+
+
+                      
+
+
+
+
+
+
+
+          });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+          
+          
+
+  </script>
+
+
+
+
+
+  </html>
