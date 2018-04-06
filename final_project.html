@@ -8,9 +8,10 @@
     <style>
       #area1 {
         display: inline-block;
-        width: 800px;
+        width: 600px;
       }
-      .area2 {
+      #area2 {
+        margin-left:10%;
         display: inline-block;
       }
     </style>
@@ -22,7 +23,7 @@
   <body bgcolor="#fbfbf8">
     <h2>Cambridge Crash Data Jan-June,2016</h2>
     <div id="area1">
-      <svg id="map", width="800", height="500"></svg>
+      <svg id="map", width="600", height="400"></svg>
       <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
         <option value="all">All</option>
@@ -34,7 +35,7 @@
         <option value="06">June</option>
        </select> 
     </div>
-    <div class="area2">
+    <div id="area2">
     </div>
     
   </body>
@@ -189,7 +190,7 @@
 
 
           //draw bar chart
-          var width = 300;
+          var width = 500;
           var height = 300;
 
           
@@ -201,35 +202,47 @@
         
 
           var linearScale = d3.scaleLinear()
-                             .domain([0,d3.max(StreetData)])
-                             .range([0, 100]);
+                             .domain([0,d3.max(StreetData,function(d){
+                              return d.values.length;
+                             })])
+                             .range([0, 300]);
           
 
           var rectHeight = 25;
-
-          var svg2 = d3.select(".area2")
+          
+          var svg2 = d3.select("#area2")
                        .append("svg")
                        .attr('width',width)
                        .attr("height",height);
 
           var rects = svg2.selectAll("rect")
-                          .data(StreetData)
-                          .enter()
-                          .append("rect")
-                          .attr("x",20)
-                          .attr("y", function(d,i){
-                            if(i<10){
-                              console.log(i);
-                              return i * rectHeight;
-                              
-                            }
+                          .data(StreetData);
+                          
+
+          var rectsEnter = rects.enter().append("rect");
+
+
+                           rects.merge(rectsEnter)
+                                .attr("x",20)
+                                .attr("y", function(d,i){
+                                  if(i<10){
+                                    console.log(i);
+                                    return i * rectHeight;
+                                    
+                                  }
+                                  
+                                })
+                                .attr("width", function(d){
+                                  return linearScale(d.values.length); 
+                                })
+                                .attr("height", rectHeight-2)
+                                .attr("fill", "steelblue")
+                                .attr('transform','translate(150,0)');
+
+
+           
+
                             
-                          })
-                          .attr("width", function(d){
-                            return linearScale(d.values.length); 
-                          })
-                          .attr("height", rectHeight-2)
-                          .attr("fill", "steelblue");
 
 
           var text = svg2.selectAll("text")
@@ -241,13 +254,25 @@
                          })
                          .attr("x", 5)
                          .attr("y", function(d,i){
-                          if(i<10){return i * rectHeight;
+                          if(i<11){return i * rectHeight;
+                            }
+                          })
+                         .attr('transform','translate(0,-5)');
 
-                          }
-                         .attr('transform','translate(-20,0)')
+
+                         
+
+
+
+          
+
+          
+                                  
+
+
 
                           
-                        });
+                        
 
             
             // bar logic goes here
@@ -255,10 +280,13 @@
 
 
 
+
         
 
 
           redraw("all");
+          rects.exit().remove();
+          text.exit().remove();
 
           
 
