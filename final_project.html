@@ -270,24 +270,35 @@
                          })
                          .attr("x", 5)
                          .attr("y", function(d,i){
-                          if(i<11){return i * rectHeight;
+                          if(i<11){
+                            return i * rectHeight;
+
                             }
                           })
                          .attr('transform','translate(0,-5)');
 
 
 
-                    rects.append("text")
+                    rects.enter()
+                         .append("text")
                          .text(function(d){
                           return d.values.length;
                          })
-                         .attr("x", 150)
+                         .attr("x",190)
+                         .attr("dx", function(d,i){
+                            return linearScale(d.values.length);
+
+                         })
                          .attr("y", function(d,i){
-                          if(i<11){return i * rectHeight;
-                            }
-                          })
-                         .attr('transform','translate(0,0)')
-                         .style("text-anchor","middle");
+                          if(i<11){
+                            return i * rectHeight -6;
+
+                         }
+                       });
+                         
+                          
+                         
+                         
 
 
                          
