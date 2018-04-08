@@ -5,14 +5,35 @@
     <title>Cambridge Traffic Crash</title>
     <script src="https://d3js.org/d3.v4.min.js"></script> 
     <script src="https://unpkg.com/topojson@3"></script>
+    <link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
     <style>
+
+      h1{
+        font-family: 'Gugi', cursive;
+        text-align: center;
+
+      }
+      h2{
+        font-family: 'Abel', sans-serif;
+        text-transform: capitalize;        
+        text-align: center;
+        margin-top:0;
+
+      }
       #area1 {
-        display: inline-block;
+        display:inline-block;
         width: 600px;
+        
+
       }
       #area2 {
-        margin-left:10%;
         display: inline-block;
+        width:500px;
+        margin-left: 12%;
+       
+      
+        
       }
     </style>
   </head>
@@ -21,8 +42,11 @@
 
 
   <body bgcolor="#fbfbf8">
-    <h2>Cambridge Crash Data Jan-June,2016</h2>
+    
+    <h1>Cambridge Crash Data Jan-June,2016</h2>
+    
     <div id="area1">
+      <h2>Crash place Distribution Map</h2>
       <svg id="map", width="600", height="400"></svg>
       <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
@@ -36,6 +60,9 @@
        </select> 
     </div>
     <div id="area2">
+      <h2>Top ten most happened car crashes streets</h2>
+      <svg id="bar", width="500", height="300"></svg>
+
     </div>
     
   </body>
@@ -44,7 +71,7 @@
   <script>
     var redraw;
     
-    //
+    
     function datafold(json) {
              return json.data.map(function(data){
                return json.meta.view.columns.reduce(function(obj, header, i){
@@ -189,18 +216,7 @@
 
 
 
-          //draw bar chart
-          var width = 500;
-          var height = 300;
-
-          
-          // var linear = d3.scaleLinear()
-          //               .domain([0,d3.max(StreetData)])
-          //               .range([0,100]);
-
-
-        
-
+          //draw bar chart    
           var linearScale = d3.scaleLinear()
                              .domain([0,d3.max(StreetData,function(d){
                               return d.values.length;
@@ -210,12 +226,9 @@
 
           var rectHeight = 25;
           
-          var svg2 = d3.select("#area2")
-                       .append("svg")
-                       .attr('width',width)
-                       .attr("height",height);
+          
 
-          var rects = svg2.selectAll("rect")
+          var rects = d3.select("#bar").selectAll("rect")
                           .data(StreetData);
                           
 
@@ -226,8 +239,7 @@
                                 .attr("x",20)
                                 .attr("y", function(d,i){
                                   if(i<10){
-                                    console.log(i);
-                                    return i * rectHeight;
+                                     return i * rectHeight;
                                     
                                   }
                                   
@@ -236,19 +248,23 @@
                                   return linearScale(d.values.length); 
                                 })
                                 .attr("height", rectHeight-2)
-                                .attr("fill", "steelblue")
-                                .attr('transform','translate(150,0)');
+                                .attr("fill", "#b3002d")
+                                .attr('transform','translate(170,0)');
 
 
            
 
-                            
+          
 
 
-          var text = svg2.selectAll("text")
-                         .data(StreetData)
-                         .enter()
-                         .append("text")
+          //add numbers beside chart                  
+          var texts = d3.select("#bar").selectAll("text")
+                       .data(StreetData);
+
+
+          var textsEnter = texts.enter().append("text");
+
+                    texts.merge(textsEnter)                      
                          .text(function(d){
                           return d.key;
                          })
@@ -258,6 +274,20 @@
                             }
                           })
                          .attr('transform','translate(0,-5)');
+
+
+
+                    rects.append("text")
+                         .text(function(d){
+                          return d.values.length;
+                         })
+                         .attr("x", 150)
+                         .attr("y", function(d,i){
+                          if(i<11){return i * rectHeight;
+                            }
+                          })
+                         .attr('transform','translate(0,0)')
+                         .style("text-anchor","middle");
 
 
                          
@@ -286,7 +316,7 @@
 
           redraw("all");
           rects.exit().remove();
-          text.exit().remove();
+          texts.exit().remove();
 
           
 
