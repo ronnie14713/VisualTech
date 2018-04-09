@@ -7,6 +7,7 @@
     <script src="https://unpkg.com/topojson@3"></script>
     <link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
     <style>
 
       h1{
@@ -15,10 +16,12 @@
 
       }
       h2{
-        font-family: 'Abel', sans-serif;
+        /*font-family: 'Abel', sans-serif;*/
+        font-family: 'Gloria Hallelujah', cursive;
         text-transform: capitalize;      
         text-align: center;
         margin-top:0;
+        color:#000000;
       }
 
 
@@ -51,12 +54,12 @@
     <h1>Cambridge Crash Data Jan-June,2016</h2>
     
     <div id="area1">
-      <h2 class="left">Crash place Distribution Map</h2>
+      <h2 class="left">Car Crash spots Distribution Map</h2>
       <svg id="map", width="600", height="400"></svg>
       
     </div>
     <div id="area2">
-      <h2>Top ten most happened car crashes streets</h2>
+      <h2>Top ten most car crashes happened streets</h2>
       <svg id="bar", width="550", height="300"></svg>
       <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
