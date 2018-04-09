@@ -60,7 +60,7 @@
     </div>
     <div id="area2">
       <h2>Top ten most car crashes happened streets</h2>
-      <svg id="bar", width="550", height="300"></svg>
+      <svg id="bar", width="550", height="350"></svg>
       <p>Select from the box to see the specific month's data</p>
       <select id="button" onchange="redraw(this.value)">
         <option value="all">All</option>
@@ -70,9 +70,10 @@
         <option value="04">April</option>
         <option value="05">May</option>
         <option value="06">June</option>
-       </select> 
-
-    </div>
+       </select>
+     </div>
+     <div id="area3">
+     </div>
     
   </body>
 
@@ -224,6 +225,27 @@
 
 
 
+          //Define ObjectData
+          var crashObjects = monthData.reduce(function(acc, d) {
+            acc.push(d["Object 1"]);
+            acc.push(d["Object 2"]);
+            return acc;
+          }, []);
+
+          var ObjectData = d3.nest()
+            .key(function(d) {
+              return d;
+            })
+            .entries(crashObjects)
+            .sort(function(a, b) {
+              return b.values.length - a.values.length;
+            });
+
+          console.log(ObjectData);
+
+
+
+
 
 
           //draw bar chart    
@@ -233,8 +255,8 @@
                              })])
                              .range([0, 300]);
           
-
-          var rectHeight = 25;
+      
+          var rectHeight = 35;
           
           
 
@@ -257,7 +279,7 @@
                                 .attr("width", function(d){
                                   return linearScale(d.values.length); 
                                 })
-                                .attr("height", rectHeight-2)
+                                .attr("height", rectHeight-4)
                                 .attr("fill", "#b3002d")
                                 .attr('transform','translate(170,0)');
 
@@ -268,11 +290,12 @@
 
 
           //add numbers beside chart                  
-          var texts = d3.select("#bar").selectAll("text")
+          var texts = d3.select("#bar").selectAll("text.label")
                        .data(StreetData);
 
 
-          var textsEnter = texts.enter().append("text");
+          var textsEnter = texts.enter().append("text")
+            .attr("class", "label");
 
                     texts.merge(textsEnter)                      
                          .text(function(d){
@@ -286,7 +309,7 @@
                             
                           })
                          .attr("dy",22)                       
-                         .attr('transform','translate(0,-3)');
+                         .attr('transform','translate(0,0)');
 
 
 
@@ -297,43 +320,80 @@
 
           
 
-          var numbersEnter = rects.enter().append("text");          
-          
-          
-              numbersEnter.text(function(d){
-                              console.log(d.values.length);
-                              return d.values.length;
-                             })
-                          .attr("x",function(d){
-                              return linearScale(d.values.length);
-                             })                                                  
-                          .attr("y", function(d,i){                               
-                              return i * rectHeight -6;                      
-                           })
-                          .attr("dy",22)
-                          .attr('transform','translate(170,0)');
-                          
-                         
-                         
+          var values = d3.select("#bar").selectAll("text.value")
+                       .data(StreetData);
 
 
-                         
+          var valuesEnter = values.enter().append("text")
+            .attr("class", "value");
 
-
-
-          
-
-          
-                                  
-
-
-
-                          
-                        
-
+          values.merge(valuesEnter) 
+            .text(function(d){
+                console.log(d.values.length);
+                return d.values.length;
+               })
+            .attr("x",function(d){
+                return linearScale(d.values.length) + 30;
+               })                                                  
+            .attr("y", function(d,i){                               
+                return i * rectHeight -6;                      
+             })
+            .attr("dy",22)
+            .attr('transform','translate(170,6)');           
             
-            // bar logic goes here
-          }
+          };// bar logic goes here
+
+
+
+
+        
+
+
+
+        
+        
+        // var dataset = [
+        //   { label: 'Abulia', count: 10 },
+        //   { label: 'Betelgeuse', count: 20 },
+        //   { label: 'Cantaloupe', count: 30 },
+        //   { label: 'Dijkstra', count: 40 }
+        // ];
+      //   var width = 360;
+      //   var height = 360;
+      //   var radius = Math.min(width, height) / 2;
+      //   var donutWidth = 75;// NEW
+      //   var color = d3.scaleOrdinal(d3.schemeCategory20b);
+      //   var svg = d3.select('#area3')
+      //               .append('svg')
+      //               .attr('width', width)
+      //               .attr('height', height)
+      //               .append('g')
+      //               .attr('transform', 'translate(' + (width / 2) +
+      //                 ',' + (height / 2) + ')');
+      //   var arc = d3.arc()
+      //     .innerRadius(radius - donutWidth)// UPDATED
+      //     .outerRadius(radius);
+      //   var pie = d3.pie()
+      //     .value(function(d) { return d.count; })
+      //     .sort(null);
+      //   var path = svg.selectAll('path')
+      //     .data(pie(ObjectData))
+      //     .enter()
+      //     .append('path')
+      //     .attr('d', arc)
+      //     .attr('fill', function(d, i) {
+      //       return color(d.data.label);
+      //     });
+      // (window.d3);
+
+
+
+
+
+
+
+
+
 
 
 
