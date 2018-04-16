@@ -108,6 +108,7 @@
             var crashData = datafold(dataArray[1]).filter(function(d){
               return d.Longitude && d.Latitude;
           });
+
           
 
 
@@ -115,13 +116,16 @@
             let a = new Date(d["Date Time"]);
             d.year = a.getFullYear();
             d.month = a.getMonth();
+
         });
+      console.log(crashData);
 
           
 
           var years = Array.from(new Set(crashData.map(function(d) {
                       return d.year;
                       }))).sort();
+
 
 
           function getYear(prm){
@@ -227,24 +231,41 @@
           console.log(StreetData);
 
 
-
+          
           //Define ObjectData
-          var crashObjects = monthData.reduce(function(acc, d) {
-            acc.push(d["Object 1"]);
-            acc.push(d["Object 2"]);
-            return acc;
-          }, []);
-
           var ObjectData = d3.nest()
-            .key(function(d) {
-              return d;
-            })
-            .entries(crashObjects)
-            .sort(function(a, b) {
-              return b.values.length - a.values.length;
-            });
-
+                             .key(function(d){
+                              return d["Object 2"];
+                             })
+                             .entries(monthData);
+          
+                        
           console.log(ObjectData);
+
+
+
+
+
+
+
+          // monthData.reduce(function(acc, d) {
+          //   acc.push(d["Object 1"]);
+          //   acc.push(d["Object 2"]);
+          //   return acc;
+          // }, []);
+          // console.log(crashObjects);
+
+
+          // var ObjectData = d3.nest()
+          //   .key(function(d) {
+          //     return d;
+          //   })
+          //   .entries(crashObjects)
+          //   .sort(function(a, b) {
+          //     return b.values.length - a.values.length;
+          //   });
+
+          // console.log(ObjectData);
 
 
 
@@ -339,116 +360,81 @@
                 return i * rectHeight -6;                      
              })
             .attr("dy",22)
-            .attr('transform','translate(170,6)');           
-            
-          };// bar logic goes here
+            .attr('transform','translate(170,6)');
 
-
-
-
-
-
-
-
-          //Draw donut chart
-          (function(d3) {
-          'use strict';
-        
-
-              var dataset = [
-                { label: 'Abulia', count: 10 },
-                { label: 'Betelgeuse', count: 20 },
-                { label: 'Cantaloupe', count: 30 },
-                { label: 'Dijkstra', count: 40 }
-              ];
 
 
               
-              var width = 360;
-              var height = 360;
-              var radius = Math.min(width, height) / 2;
-              var donutWidth = 75;                            // NEW
-              var color = d3.scaleOrdinal(d3.schemeCategory20b);
-              var svg = d3.select('#donut')
-                          .append('svg')
-                          .attr('width', width)
-                          .attr('height', height)
+
+
+
+          //Draw a donut chart
+
+          
+
+          
+          
+          var width = 360;
+          var height = 360;
+          var radius = Math.min(width, height) / 2;
+          var donutWidth = 75;                            // NEW
+          var color = d3.scaleOrdinal(d3.schemeCategory20b);
+          var svg = d3.select('#donut')
+                      .append('svg')
+                      .attr('width', width)
+                      .attr('height', height)
+                      .append('g')
+                      .attr('transform', 'translate(' + (width / 2) +
+                        ',' + (height / 2) + ')');
+          var arc = d3.arc()
+                      .innerRadius(radius - donutWidth)             // UPDATED
+                      .outerRadius(radius);
+          var pie = d3.pie()
+                      .value(function(d) { return d.count; })
+                      .sort(null);
+          var path = svg.selectAll('path')
+                        .data(pie(ObjectData))                          
+                        .enter()
+                        .append('path')
+                        .attr('d', arc)
+                        .attr('fill', function(d, i) {
+                          return color(d.data.label);
+                          });
+
+
+
+
+          var legendRectSize = 18;
+          var legendSpacing = 4;
+
+          var legend = svg.selectAll('.legend')
+                          .data(color.domain())
+                          .enter()
                           .append('g')
-                          .attr('transform', 'translate(' + (width / 2) +
-                            ',' + (height / 2) + ')');
-              var arc = d3.arc()
-                          .innerRadius(radius - donutWidth)             // UPDATED
-                          .outerRadius(radius);
-              var pie = d3.pie()
-                          .value(function(d) { return d.count; })
-                          .sort(null);
-              var path = svg.selectAll('path')
-                            .data(pie(dataset))
-                            .enter()
-                            .append('path')
-                            .attr('d', arc)
-                            .attr('fill', function(d, i) {
-                              return color(d.data.label);
-                              });
+                          .attr('class', 'legend')
+                          .attr('transform', function(d, i) {
+                                var height = legendRectSize + legendSpacing;
+                                var offset =  height * color.domain().length / 2;
+                                var horz = -2 * legendRectSize;
+                                var vert = i * height - offset;
+                                    return 'translate(' + horz + ',' + vert + ')';
+                                    });
+          legend.append('rect')
+                .attr('width', legendRectSize)
+                .attr('height', legendRectSize)
+                .style('fill', color)
+                .style('stroke', color);
 
-
-
-
-              var legendRectSize = 18;
-              var legendSpacing = 4;
-
-              var legend = svg.selectAll('.legend')
-                              .data(color.domain())
-                              .enter()
-                              .append('g')
-                              .attr('class', 'legend')
-                              .attr('transform', function(d, i) {
-                                    var height = legendRectSize + legendSpacing;
-                                    var offset =  height * color.domain().length / 2;
-                                    var horz = -2 * legendRectSize;
-                                    var vert = i * height - offset;
-                                        return 'translate(' + horz + ',' + vert + ')';
-                                        });
-              legend.append('rect')
-                    .attr('width', legendRectSize)
-                    .attr('height', legendRectSize)
-                    .style('fill', color)
-                    .style('stroke', color);
-
-              legend.append('text')
-                    .attr('x', legendRectSize + legendSpacing)
-                    .attr('y', legendRectSize - legendSpacing)
-                    .text(function(d) { return d.toUpperCase(); });
-              
-              })(window.d3);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          legend.append('text')
+                .attr('x', legendRectSize + legendSpacing)
+                .attr('y', legendRectSize - legendSpacing)
+                .text(function(d){
+                   return d;
+                });
+          
+          (window.d3);           
         
-
-
-
-        
-    
-
-
-
-
-
-
-
-
+          };
 
 
 
