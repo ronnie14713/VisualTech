@@ -7,42 +7,80 @@
     <script src="https://unpkg.com/topojson@3"></script>
     <link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
-    <style>
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+    
 
-      h1{
-        font-family: 'Gugi', cursive;
-        text-align: center;
-
-      }
-      h2{
-        /*font-family: 'Abel', sans-serif;*/
-        font-family: 'Gloria Hallelujah', cursive;
-        text-transform: capitalize;      
-        text-align: center;
-        margin-top:0;
-        color:#000000;
-      }
-
-
+    <style>  
 
       #area1 {
         display:inline-block;
-        width: 600px;
-        
+        width: 430px;
+        vertical-align:top; 
+        margin-top:3%;
 
       }
       #area2 {
+        display:inline-block;
+        width:425px;
+        vertical-align: top;
+        margin-top:3%;
+        
+        
+      }
+      #area3 {
+
         display: inline-block;
         vertical-align:top;
-        width:500px;
-        margin-left: 12%;
+        width:561px;  
+
+      }
+
+
+      h1{
+        text-align: center;
+        font-family: 'Gugi', cursive;
+        font-size: 2.7em;
+
+      }
+      
+      
+      #pieText{
+        /*font-family: 'Abel', sans-serif;*/
+        font-family: 'Slabo 27px', serif;
+        font-size: 1.5em;
+        text-transform: capitalize;      
+        color:#000000;
+        text-align:center;
+        
+
+      }
+
+      #mapText{
+        font-family: 'Slabo 27px', serif;
+        font-size: 2.4em;
+        text-transform: capitalize;
+        text-align:center; 
+        margin-bottom: 0;  
+      }
+
+      #barText{
+        font-family: 'Slabo 27px', serif;
+        font-size: 1.5em;
+        text-transform: capitalize;
         
       }
 
-      #area3 {
-
+      #boxText{
+        font-family: 'Gugi', cursive;
+        
       }
+
+      #box{
+        position:absolute;
+        top:77%;
+        left:36%;
+      }
+
 
 
     </style>
@@ -53,30 +91,40 @@
 
   <body bgcolor="#fbfbf8">
     
-    <h1>Cambridge Crash Data Jan-June,2016</h2>
+    <h1>Cambridge Crash Data Jan-June,2016</h1>
     
     <div id="area1">
-      <h2 class="left">Car Crash spots Distribution Map</h2>
-      <svg id="map", width="600", height="400"></svg>
-      
+       <p id="pieText">Types of Crash Objects</p>
+       <svg id="pie" width="410" height="500"></svg>          
     </div>
-    <div id="area2">
-      <h2>Top ten most car crashes happened streets</h2>
-      <svg id="bar", width="550", height="350"></svg>
-      <p>Select from the box to see the specific month's data</p>
-      <select id="button" onchange="redraw(this.value)">
-        <option value="all">All</option>
-        <option value="01">January</option>
-        <option value="02">Feburary</option>
-        <option value="03">March</option>
-        <option value="04">April</option>
-        <option value="05">May</option>
-        <option value="06">June</option>
-       </select>
-     </div>
-     <div id="donut">
+    
       
+     <div id="area3">
+        <p id="mapText">Car Crash spots Distribution Map</p>
+        <svg id="map" width="500" height="380"></svg>   
      </div>
+
+     <div id="area2">     
+        <p id="barText">Top ten most car crashes happened streets</p>
+        <svg id="bar" width="425" height="380"></svg>      
+     </div>
+
+
+     <div>
+         <center id="box">
+             <p id="boxText">Select from the box to see the specific month's data</p>
+              <select id="button" onchange="redraw(this.value)">
+                <option value="all">All</option>
+                <option value="01">January</option>
+                <option value="02">Feburary</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+               </select>
+         </center>
+     </div>
+
     
   </body>
 
@@ -157,7 +205,7 @@
           
 
       var proj = d3.geoAlbersUsa()
-                   .fitSize([600,400], geoJSON);
+                   .fitSize([500,400], geoJSON);
 
       var path = d3.geoPath()
                    .projection(proj);
@@ -218,17 +266,7 @@
 
 
 
-          var StreetData = d3.nest()
-            .key(function(d) {
-              return d["Street Name"];
-            })
-            .entries(monthData)
-            .sort(function(a, b) {
-              return b.values.length - a.values.length;
-            })
-            .slice(0,10);
-          
-          console.log(StreetData);
+       
 
 
           
@@ -237,7 +275,12 @@
                              .key(function(d){
                               return d["Object 2"];
                              })
-                             .entries(monthData);
+                             .entries(monthData)
+                             .filter(function(d){
+                              return d.key != "null";
+
+                             })
+
           
                         
           console.log(ObjectData);
@@ -248,38 +291,29 @@
 
 
 
-          // monthData.reduce(function(acc, d) {
-          //   acc.push(d["Object 1"]);
-          //   acc.push(d["Object 2"]);
-          //   return acc;
-          // }, []);
-          // console.log(crashObjects);
-
-
-          // var ObjectData = d3.nest()
-          //   .key(function(d) {
-          //     return d;
-          //   })
-          //   .entries(crashObjects)
-          //   .sort(function(a, b) {
-          //     return b.values.length - a.values.length;
-          //   });
-
-          // console.log(ObjectData);
 
 
 
 
 
+          //draw bar chart 
 
 
-
-          //draw bar chart    
+          var StreetData = d3.nest()
+            .key(function(d) {
+              return d["Street Name"];
+            })
+            .entries(monthData)
+            .sort(function(a, b) {
+              return b.values.length - a.values.length;
+            })
+            .slice(0,10);
+     
           var linearScale = d3.scaleLinear()
                              .domain([0,d3.max(StreetData,function(d){
                               return d.values.length;
                              })])
-                             .range([0, 300]);
+                             .range([0,230]);
           
       
           var rectHeight = 35;
@@ -297,7 +331,7 @@
                                 .attr("x",20)
                                 .attr("y", function(d,i){
                                  
-                                     return i * rectHeight;
+                                     return i * rectHeight + 23;
                                     
                                   
                                   
@@ -305,9 +339,11 @@
                                 .attr("width", function(d){
                                   return linearScale(d.values.length); 
                                 })
-                                .attr("height", rectHeight-4)
+                                .attr("height", rectHeight - 4)
                                 .attr("fill", "#b3002d")
-                                .attr('transform','translate(170,0)');
+                                .attr('transform','translate(150,0)');
+
+           rects.exit().remove();
 
 
            
@@ -315,27 +351,31 @@
           
 
 
-          //add numbers beside chart                  
+          //add street names                  
           var texts = d3.select("#bar").selectAll("text.label")
                        .data(StreetData);
 
 
           var textsEnter = texts.enter().append("text")
-            .attr("class", "label");
+                                .attr("class", "label");
 
                     texts.merge(textsEnter)                      
                          .text(function(d){
                           return d.key;
                          })
+                         .style("font-size","19px")
+                         .style("font-family","Abel")
                          .attr("x", 5)
                          .attr("y", function(d,i){
                           
-                            return i * rectHeight;
+                            return i * rectHeight + 23;
 
                             
                           })
                          .attr("dy",22)                       
-                         .attr('transform','translate(0,0)');
+                         
+
+          texts.exit().remove();
 
 
 
@@ -354,13 +394,15 @@
                 return d.values.length;
                })
             .attr("x",function(d){
-                return linearScale(d.values.length) + 30;
+                return linearScale(d.values.length) - 5;
                })                                                  
             .attr("y", function(d,i){                               
-                return i * rectHeight -6;                      
+                return i * rectHeight + 17;                      
              })
-            .attr("dy",22)
-            .attr('transform','translate(170,6)');
+            .attr("dy",20)
+            .attr('transform','translate(180,6)');
+
+            values.exit().remove();
 
 
 
@@ -368,73 +410,95 @@
 
 
 
-          //Draw a donut chart
+          //Draw a pie chart
 
           
 
           
           
-          var width = 360;
-          var height = 360;
+          var width = 250;
+          var height = 250;
           var radius = Math.min(width, height) / 2;
-          var donutWidth = 75;                            // NEW
-          var color = d3.scaleOrdinal(d3.schemeCategory20b);
-          var svg = d3.select('#donut')
-                      .append('svg')
-                      .attr('width', width)
-                      .attr('height', height)
-                      .append('g')
-                      .attr('transform', 'translate(' + (width / 2) +
-                        ',' + (height / 2) + ')');
+          var color = d3.scaleOrdinal(d3.schemeCategory20c);
+          var svg = d3.select('#pie')                      
+                    
+
+         
+                            
+
+          
           var arc = d3.arc()
-                      .innerRadius(radius - donutWidth)             // UPDATED
+                      .innerRadius(0)             
                       .outerRadius(radius);
           var pie = d3.pie()
-                      .value(function(d) { return d.count; })
+                      .value(function(d) { return d.values.length; })
                       .sort(null);
+
           var path = svg.selectAll('path')
-                        .data(pie(ObjectData))                          
-                        .enter()
-                        .append('path')
-                        .attr('d', arc)
-                        .attr('fill', function(d, i) {
-                          return color(d.data.label);
-                          });
+                        .data(pie(ObjectData))
+
+                        
+          var pathEnter = path.enter()
+                              .append('path')
+
+                          path.merge(pathEnter)
+                              .attr('d', arc)
+                              .attr('transform', 'translate(' + (width/1.2) +
+                              ',' + (height / 2) + ')')
+                              .style("opacity",0.85)
+                              .attr('fill', function(d, i) {
+                                return color(d.data.key);
+                                });
+
+
+          path.exit().remove();
 
 
 
 
+
+
+          //Add legend of pie
           var legendRectSize = 18;
-          var legendSpacing = 4;
+          var legendSpacing = 8;
 
           var legend = svg.selectAll('.legend')
-                          .data(color.domain())
-                          .enter()
-                          .append('g')
-                          .attr('class', 'legend')
-                          .attr('transform', function(d, i) {
-                                var height = legendRectSize + legendSpacing;
-                                var offset =  height * color.domain().length / 2;
-                                var horz = -2 * legendRectSize;
-                                var vert = i * height - offset;
-                                    return 'translate(' + horz + ',' + vert + ')';
-                                    });
-          legend.append('rect')
+                          .data(color.domain());
+
+          var legendEnter = legend.enter()
+                                  .append('g')
+                                  .attr('class', 'legend')
+                                  .style("font-size","18px")
+                                  .style("font-family","Abel")    
+                                  .attr('transform', function(d, i) {
+                              var height = legendRectSize + legendSpacing;
+                              var offset =  height * color.domain().length / 100;
+                              var horz = 50;
+                              var vert = i * height + 270;
+                                  return 'translate(' + horz + ',' + vert + ')';
+                                  });
+
+
+
+          legendEnter.append('rect')
                 .attr('width', legendRectSize)
                 .attr('height', legendRectSize)
                 .style('fill', color)
                 .style('stroke', color);
 
-          legend.append('text')
+          legendEnter.append('text')
                 .attr('x', legendRectSize + legendSpacing)
                 .attr('y', legendRectSize - legendSpacing)
                 .text(function(d){
                    return d;
                 });
           
-          (window.d3);           
+          legend.exit().remove();
+
         
           };
+
+
 
 
 
@@ -444,9 +508,12 @@
 
 
           redraw("all");
-          rects.exit().remove();
-          texts.exit().remove();
-          numbersEnter.exit().remove();
+         
+          
+          
+
+
+
         });
 
   </script>
