@@ -18,6 +18,7 @@
         vertical-align:top; 
         margin-top:3%;
 
+
       }
       #area2 {
         display:inline-block;
@@ -25,13 +26,12 @@
         vertical-align: top;
         margin-top:3%;
         
-        
       }
       #area3 {
 
         display: inline-block;
         vertical-align:top;
-        width:560px;  
+        width:560px;
 
       }
 
@@ -63,7 +63,7 @@
 
       #mapText{
         font-family: 'Slabo 27px', serif;
-        font-size: 2.4em;
+        font-size: 2.5em;
         text-transform: capitalize;
         text-align:center; 
         margin-bottom: 0;  
@@ -121,13 +121,13 @@
     <h6>Source from Cambridge Police Department, January to June in 2016</h6>
     
     <div id="area1">
-       <p id="pieText">Types of Crash Objects</p>
+       <p id="pieText">Crash Objects Types</p>
        <svg id="pie" width="410" height="500"></svg>          
     </div>
     
       
      <div id="area3">
-        <p id="mapText">Crash spots Distribution Map</p>
+        <p id="mapText">Crash spots Distribution</p>
         <svg id="map" width="500" height="380"></svg>   
      </div>
 
@@ -179,7 +179,9 @@
         .defer(d3.json, "cambridge crash data.json")
         .awaitAll(function(error,dataArray){
           if (error) console.log(error);
+          
             var geoJSON = dataArray[0];
+            console.log(geoJSON);
             var crashData = datafold(dataArray[1]).filter(function(d){
               return d.Longitude && d.Latitude;
           });
@@ -593,9 +595,7 @@
 
               percent.merge(percentEnter)
                      .attr("transform",function(d){
-                      var b = arc.centroid(d);
-                      console.log(b);
-                      
+                      var b = arc.centroid(d);                      
                       return "translate(" + (b[0] + width / 1.2 ) + " , " + (b[1] + height / 2) + ")"; 
                      })
                      .text(function(d){
