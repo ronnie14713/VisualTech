@@ -44,8 +44,8 @@
 
       }
 
-      h4{
-        text-align: center;
+      h6{
+        text-align: right;
         font-family: 'Gugi', cursive;
         margin-top:0;
       }
@@ -54,7 +54,7 @@
       #pieText{
         /*font-family: 'Abel', sans-serif;*/
         font-family: 'Slabo 27px', serif;
-        font-size: 1.5em;
+        font-size: 2em;
         text-transform: capitalize;   
         text-align:center;
         
@@ -71,8 +71,9 @@
 
       #barText{
         font-family: 'Slabo 27px', serif;
-        font-size: 1.5em;
+        font-size: 2em;
         text-transform: capitalize;
+        text-align:center;
         
       }
 
@@ -83,7 +84,7 @@
 
       #box{
         position:absolute;
-        top:77%;
+        top:80%;
         left:36%;
       }
 
@@ -117,7 +118,7 @@
   <body bgcolor="#fbfbf8">
     
     <h1>Cambridge Automobile Crash Analysis</h1>
-    <h4>Jan-June, 2016</h4>
+    <h6>Source from Cambridge Police Department, January to June in 2016</h6>
     
     <div id="area1">
        <p id="pieText">Types of Crash Objects</p>
@@ -126,12 +127,12 @@
     
       
      <div id="area3">
-        <p id="mapText">Car Crash spots Distribution Map</p>
+        <p id="mapText">Crash spots Distribution Map</p>
         <svg id="map" width="500" height="380"></svg>   
      </div>
 
      <div id="area2">     
-        <p id="barText">Top ten most car crashes happened streets</p>
+        <p id="barText">Top ten crash occured streets</p>
         <svg id="bar" width="425" height="380"></svg>      
      </div>
 
