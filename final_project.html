@@ -48,8 +48,7 @@
         /*font-family: 'Abel', sans-serif;*/
         font-family: 'Slabo 27px', serif;
         font-size: 1.5em;
-        text-transform: capitalize;      
-        color:#000000;
+        text-transform: capitalize;   
         text-align:center;
         
 
@@ -212,13 +211,14 @@
 
       var streets = d3.select("#map").selectAll("path")
                       .data(geoJSON.features);
-                      streets.enter().append("path")
-                             .attr("d", function(d){
-                              return path(d);
-                             })
-                             .attr("fill","lightgrey")
-                             .attr("stroke-width",1)
-                             .attr("stroke","lightblue")
+      
+      streets.enter().append("path")
+                     .attr("d", function(d){
+                      return path(d);
+                     })
+                     .attr("fill","lightgrey")
+                     .attr("stroke-width",1)
+                     .attr("stroke","lightblue")
 
 
           
@@ -263,10 +263,8 @@
 
 
 
+         
 
-
-
-       
 
 
           
@@ -341,12 +339,22 @@
                                 })
                                 .attr("height", rectHeight - 4)
                                 .attr("fill", "#b3002d")
-                                .attr('transform','translate(150,0)');
+                                .transition()                            
+                                .attr('transform','translate(150,0)')
+                                .transition()
+                                .duration(1500)
+                                .attr("fill","#4d4d4d");
+
+
+
+                 
 
            rects.exit().remove();
 
+     
 
-           
+
+
 
           
 
@@ -400,22 +408,57 @@
                 return i * rectHeight + 17;                      
              })
             .attr("dy",20)
-            .attr('transform','translate(180,6)');
+            .attr('transform','translate(180,6)')
+            .attr("fill","white")
+            .transition()
+            .duration(1800)
+            .attr("fill","black");
 
             values.exit().remove();
 
 
 
-              
 
 
 
-          //Draw a pie chart
+
+
+
+
+
+          // Draw a pie chart
+
+          // var percentageFormat = d3.format("%");
+
+         
+          
+
+          // var tots = d3.sum(ObjectData, function(d){
+          //   console.log(d.values.length);
+          //   return d.values.length;
+
+          // });
+          // console.log(tots);
+     
+
+          // var a = ObjectData.forEach(function(d){
+          //   d.percentage = d.values.length / tots;
+          // });
+          
+
+          // console.log(a);
 
           
 
+
+
+
+
+
+
+
           
-          
+
           var width = 250;
           var height = 250;
           var radius = Math.min(width, height) / 2;
@@ -495,58 +538,50 @@
           
           legend.exit().remove();
 
+          
+          
+
+
+          //Add text labels outside pie chart
+          
+          var percentageFormat = d3.format(".0%");
+
+          var pieData = pie(ObjectData);
+
+          var total = d3.sum(pieData,function(d){
+            return d.value;
+          })
+
+          var percent = d3.select("#pie").selectAll("text.percent")
+                          .data(pieData);
 
 
 
+          var percentEnter = percent.enter().append("text")
+                                    .attr("class","percent");
 
 
-          // var percent = d3.select("#pie").selectAll("text.percent")
-          //                 .data(ObjectData);
+              percent.merge(percentEnter)
+                     .text(function(d){
+                      console.log(d.value/total);
+                        if(d.value/total > 0.15)
+                        return percentageFormat(d.value/total);
+                        else{
+                          return "";
+                        }
 
-          // var percentEnter = percent.enter().append("text")
-          //                           .attr("class","percent");
+                     })
+                     .attr("text-anchor", "middle")
+                     .attr("transform",function(d){
+                      var b = arc.centroid(d);
+                      console.log(b);
+                      
+                      return "translate(" + arc.centroid(d) + ")"; 
+                     });
 
-          //     percent.merge(percentEnter)
-          //            .text(function(d){
-          //             return d.values.length;
-          //            })
-
-          //            .attr("transform",function(d){ 
-          //             "translate(" + arc.centroid(d) + ")";
-          //            });
-
-
-
-
-
-
-
-          // //add bar's value
-          // var values = d3.select("#bar").selectAll("text.value")
-          //              .data(StreetData);
-
-
-          // var valuesEnter = values.enter().append("text")
-          //   .attr("class", "value");
-
-          // values.merge(valuesEnter) 
-          //   .text(function(d){
-          //       return d.values.length;
-          //      })
-          //   .attr("x",function(d){
-          //       return linearScale(d.values.length) - 5;
-          //      })                                                  
-          //   .attr("y", function(d,i){                               
-          //       return i * rectHeight + 17;                      
-          //    })
-          //   .attr("dy",20)
-          //   .attr('transform','translate(180,6)');
-
-          //   values.exit().remove();
-
-
-
-        
+              percent.exit().remove();
+                     
+  
           };
 
 
