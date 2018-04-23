@@ -463,7 +463,8 @@
           var height = 250;
           var radius = Math.min(width, height) / 2;
           var color = d3.scaleOrdinal(d3.schemeCategory20c);
-          var svg = d3.select('#pie')                      
+          var svg = d3.select('#pie');
+
                     
 
          
@@ -550,6 +551,7 @@
 
           var total = d3.sum(pieData,function(d){
             return d.value;
+
           })
 
           var percent = d3.select("#pie").selectAll("text.percent")
@@ -562,22 +564,24 @@
 
 
               percent.merge(percentEnter)
+                     .attr("transform",function(d){
+                      var b = arc.centroid(d);
+                      console.log(b);
+                      
+                      return "translate(" + (b[0] + width / 1.2 ) + " , " + (b[1] + height / 2) + ")"; 
+                     })
                      .text(function(d){
-                      console.log(d.value/total);
+                      
                         if(d.value/total > 0.15)
                         return percentageFormat(d.value/total);
                         else{
                           return "";
                         }
+                        console.log(d.value/total);
 
                      })
-                     .attr("text-anchor", "middle")
-                     .attr("transform",function(d){
-                      var b = arc.centroid(d);
-                      console.log(b);
-                      
-                      return "translate(" + arc.centroid(d) + ")"; 
-                     });
+                     .attr("text-anchor", "middle");
+                     
 
               percent.exit().remove();
                      
