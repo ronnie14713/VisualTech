@@ -179,7 +179,7 @@
         .defer(d3.json, "cambridge crash data.json")
         .awaitAll(function(error,dataArray){
           if (error) console.log(error);
-          
+
             var geoJSON = dataArray[0];
             console.log(geoJSON);
             var crashData = datafold(dataArray[1]).filter(function(d){
@@ -458,35 +458,6 @@
 
           // Draw a pie chart
 
-          // var percentageFormat = d3.format("%");
-
-         
-          
-
-          // var tots = d3.sum(ObjectData, function(d){
-          //   console.log(d.values.length);
-          //   return d.values.length;
-
-          // });
-          // console.log(tots);
-     
-
-          // var a = ObjectData.forEach(function(d){
-          //   d.percentage = d.values.length / tots;
-          // });
-          
-
-          // console.log(a);
-
-          
-
-
-
-
-
-
-
-
           
 
           var width = 250;
@@ -504,12 +475,19 @@
           var arc = d3.arc()
                       .innerRadius(0)             
                       .outerRadius(radius);
+
+
+
           var pie = d3.pie()
                       .value(function(d) { return d.values.length; })
                       .sort(null);
 
+
+
+         
+
           var path = svg.selectAll('path')
-                        .data(pie(ObjectData))
+                        .data(pie(ObjectData));
 
                         
           var pathEnter = path.enter()
@@ -528,6 +506,8 @@
           path.exit().remove();
 
 
+         
+
 
 
 
@@ -536,8 +516,14 @@
           var legendRectSize = 18;
           var legendSpacing = 5;
 
+          var legendColor = color.domain();
+          
+
+          console.log(legendColor);
+      
+
           var legend = svg.selectAll('.legend')
-                          .data(color.domain());
+                          .data(legendColor);
 
           var legendEnter = legend.enter()
                                   .append('g')
